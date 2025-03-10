@@ -1,0 +1,3745 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Getting Data: Working with APIs, TEXT analytics &amp; Census</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Getting Data: Working with APIs, TEXT analytics &amp; Census</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<ul>
+<li><strong>Natural language processing via Philly’s 311 API</strong>
+<ul>
+<li>Word frequencies</li>
+<li>Sentiment analysis</li>
+</ul></li>
+</ul>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> holoviews <span class="im">as</span> hv</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.pandas</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Show all columns</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>pd.options.display.max_columns <span class="op">=</span> <span class="dv">999</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="natural-language-processing-and-the-311-request-api" class="level1">
+<h1>Natural Language Processing and the 311 Request API</h1>
+<p>We pull data using the API for the Philly 311 system, available at: <a href="https://iframe.publicstuff.com/#?client_id=242">https://iframe.publicstuff.com/#?client_id=242</a></p>
+<p><img src="imgs/philly-311.png" class="img-fluid"></p>
+<p>Let’s take another look at the address where the site is pulling its data from:</p>
+<p><code>https://vc0.publicstuff.com/api/2.0/requests_list?client_id=242&amp;device=iframe&amp;limit=35&amp;page=1</code></p>
+<p>This is just an <strong>API request!</strong> It’s an example of a <em>non-public, internal</em> API, but we can reverse-engineer it to extract the data we want!</p>
+<p>Break it down into it’s component parts:</p>
+<ul>
+<li><strong>Base URL:</strong> <a href="https://vc0.publicstuff.com/api/2.0/requests_list">https://vc0.publicstuff.com/api/2.0/requests_list</a></li>
+<li><strong>Query parameters:</strong> client_id, device, limit, page</li>
+</ul>
+<p>It looks likes “client_id” identifies data for the City of Philadelphia, which is definitely a required parameter. Otherwise, the other parameters seem optional, returning the requests on a certain device and viewing page.</p>
+<p>Let’s test it out. We’ll grab 2 requests from the first page:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://vc0.publicstuff.com/api/2.0/requests_list"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    params<span class="op">=</span>{<span class="st">"client_id"</span>: <span class="dv">242</span>, <span class="st">"page"</span>: <span class="dv">1</span>, <span class="st">"limit"</span>: <span class="dv">2</span>},</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>json <span class="op">=</span> r.json()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>{'response': {'requests': [{'request': {'id': 16613763,
+     'image_thumbnail': '',
+     'title': 'Other',
+     'description': '',
+     'status': 'submitted',
+     'address': '9956 Haldeman Ave, Philadelphia, PA 19115, USA',
+     'location': '',
+     'zipcode': None,
+     'foreign_id': '17469497',
+     'date_created': 1741639537,
+     'count_comments': 0,
+     'count_followers': 0,
+     'count_supporters': 0,
+     'lat': 40.0970337,
+     'lon': -75.0228742,
+     'user_follows': 0,
+     'user_comments': 0,
+     'user_request': 0,
+     'rank': '1',
+     'user': 'KENYETTA THOMAS'}},
+   {'request': {'primary_attachment': {'id': 5377066,
+      'extension': 'jpg',
+      'content_type': 'image/jpeg',
+      'url': 'https://d17aqltn7cihbm.cloudfront.net/uploads/a58453dcf3519f2e61d7eb71bdd0dddd',
+      'versions': {'small': 'https://d17aqltn7cihbm.cloudfront.net/uploads/small_a58453dcf3519f2e61d7eb71bdd0dddd',
+       'medium': 'https://d17aqltn7cihbm.cloudfront.net/uploads/medium_a58453dcf3519f2e61d7eb71bdd0dddd',
+       'large': 'https://d17aqltn7cihbm.cloudfront.net/uploads/large_a58453dcf3519f2e61d7eb71bdd0dddd'}},
+     'id': 16613760,
+     'image_thumbnail': 'https://d17aqltn7cihbm.cloudfront.net/uploads/small_a58453dcf3519f2e61d7eb71bdd0dddd',
+     'title': 'Dangerous Building Complaint',
+     'description': 'Signage on the verge of falling on pedestrians',
+     'status': 'submitted',
+     'address': '2101 S Beechwood St, Philadelphia, PA 19145, USA',
+     'location': '',
+     'zipcode': None,
+     'foreign_id': '17469495',
+     'date_created': 1741639534,
+     'count_comments': 0,
+     'count_followers': 0,
+     'count_supporters': 0,
+     'lat': 39.92588753,
+     'lon': -75.182167813,
+     'user_follows': 0,
+     'user_comments': 0,
+     'user_request': 0,
+     'rank': '1',
+     'user': 'jjjjj'}}],
+  'count': '2',
+  'benchmark': 16.027112007141113,
+  'status': {'type': 'success',
+   'message': 'Success',
+   'code': 200,
+   'code_message': 'Ok'}}}</code></pre>
+</div>
+</div>
+<p>Now we need to understand the structure of the response. First, access the list of requests:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>request_list <span class="op">=</span> json[<span class="st">"response"</span>][<span class="st">"requests"</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>request_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>[{'request': {'id': 16613763,
+   'image_thumbnail': '',
+   'title': 'Other',
+   'description': '',
+   'status': 'submitted',
+   'address': '9956 Haldeman Ave, Philadelphia, PA 19115, USA',
+   'location': '',
+   'zipcode': None,
+   'foreign_id': '17469497',
+   'date_created': 1741639537,
+   'count_comments': 0,
+   'count_followers': 0,
+   'count_supporters': 0,
+   'lat': 40.0970337,
+   'lon': -75.0228742,
+   'user_follows': 0,
+   'user_comments': 0,
+   'user_request': 0,
+   'rank': '1',
+   'user': 'KENYETTA THOMAS'}},
+ {'request': {'primary_attachment': {'id': 5377066,
+    'extension': 'jpg',
+    'content_type': 'image/jpeg',
+    'url': 'https://d17aqltn7cihbm.cloudfront.net/uploads/a58453dcf3519f2e61d7eb71bdd0dddd',
+    'versions': {'small': 'https://d17aqltn7cihbm.cloudfront.net/uploads/small_a58453dcf3519f2e61d7eb71bdd0dddd',
+     'medium': 'https://d17aqltn7cihbm.cloudfront.net/uploads/medium_a58453dcf3519f2e61d7eb71bdd0dddd',
+     'large': 'https://d17aqltn7cihbm.cloudfront.net/uploads/large_a58453dcf3519f2e61d7eb71bdd0dddd'}},
+   'id': 16613760,
+   'image_thumbnail': 'https://d17aqltn7cihbm.cloudfront.net/uploads/small_a58453dcf3519f2e61d7eb71bdd0dddd',
+   'title': 'Dangerous Building Complaint',
+   'description': 'Signage on the verge of falling on pedestrians',
+   'status': 'submitted',
+   'address': '2101 S Beechwood St, Philadelphia, PA 19145, USA',
+   'location': '',
+   'zipcode': None,
+   'foreign_id': '17469495',
+   'date_created': 1741639534,
+   'count_comments': 0,
+   'count_followers': 0,
+   'count_supporters': 0,
+   'lat': 39.92588753,
+   'lon': -75.182167813,
+   'user_follows': 0,
+   'user_comments': 0,
+   'user_request': 0,
+   'rank': '1',
+   'user': 'jjjjj'}}]</code></pre>
+</div>
+</div>
+<p>We need to extract out the “request” key of each list entry. Let’s do that and create a DataFrame:</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame([r[<span class="st">"request"</span>] <span class="cf">for</span> r <span class="kw">in</span> request_list])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">image_thumbnail</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">description</th>
+<th data-quarto-table-cell-role="th">status</th>
+<th data-quarto-table-cell-role="th">address</th>
+<th data-quarto-table-cell-role="th">location</th>
+<th data-quarto-table-cell-role="th">zipcode</th>
+<th data-quarto-table-cell-role="th">foreign_id</th>
+<th data-quarto-table-cell-role="th">date_created</th>
+<th data-quarto-table-cell-role="th">count_comments</th>
+<th data-quarto-table-cell-role="th">count_followers</th>
+<th data-quarto-table-cell-role="th">count_supporters</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">lon</th>
+<th data-quarto-table-cell-role="th">user_follows</th>
+<th data-quarto-table-cell-role="th">user_comments</th>
+<th data-quarto-table-cell-role="th">user_request</th>
+<th data-quarto-table-cell-role="th">rank</th>
+<th data-quarto-table-cell-role="th">user</th>
+<th data-quarto-table-cell-role="th">primary_attachment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>16613763</td>
+<td></td>
+<td>Other</td>
+<td></td>
+<td>submitted</td>
+<td>9956 Haldeman Ave, Philadelphia, PA 19115, USA</td>
+<td></td>
+<td>None</td>
+<td>17469497</td>
+<td>1741639537</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>40.097034</td>
+<td>-75.022874</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>KENYETTA THOMAS</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>16613760</td>
+<td>https://d17aqltn7cihbm.cloudfront.net/uploads/...</td>
+<td>Dangerous Building Complaint</td>
+<td>Signage on the verge of falling on pedestrians</td>
+<td>submitted</td>
+<td>2101 S Beechwood St, Philadelphia, PA 19145, USA</td>
+<td></td>
+<td>None</td>
+<td>17469495</td>
+<td>1741639534</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39.925888</td>
+<td>-75.182168</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>jjjjj</td>
+<td>{'id': 5377066, 'extension': 'jpg', 'content_t...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>GREAT SUCCESS!!</strong> But we want to build up a larger dataset…let’s pull data for the first 3 pages of data. This will take a minute or two…</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the data we request</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Total number of pages</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>total_pages <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over each page</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> page_num <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, total_pages <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print out the page number</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Getting data for page #</span><span class="sc">{</span>page_num<span class="sc">}</span><span class="ss">..."</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make the request</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> requests.get(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"https://vc0.publicstuff.com/api/2.0/requests_list"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        params<span class="op">=</span>{</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            <span class="st">"client_id"</span>: <span class="dv">242</span>,  <span class="co"># Unique identifier for Philadelphia</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            <span class="st">"page"</span>: page_num,  <span class="co"># What page of data to pull</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">"limit"</span>: <span class="dv">200</span>,  <span class="co"># How many rows per page</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the json</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> r.json()</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the new data to our list and save</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> data <span class="op">+</span> [r[<span class="st">"request"</span>] <span class="cf">for</span> r <span class="kw">in</span> d[<span class="st">"response"</span>][<span class="st">"requests"</span>]]</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dataframe</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Getting data for page #1...
+Getting data for page #2...
+Getting data for page #3...</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>600</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">image_thumbnail</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">description</th>
+<th data-quarto-table-cell-role="th">status</th>
+<th data-quarto-table-cell-role="th">address</th>
+<th data-quarto-table-cell-role="th">location</th>
+<th data-quarto-table-cell-role="th">zipcode</th>
+<th data-quarto-table-cell-role="th">foreign_id</th>
+<th data-quarto-table-cell-role="th">date_created</th>
+<th data-quarto-table-cell-role="th">count_comments</th>
+<th data-quarto-table-cell-role="th">count_followers</th>
+<th data-quarto-table-cell-role="th">count_supporters</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">lon</th>
+<th data-quarto-table-cell-role="th">user_follows</th>
+<th data-quarto-table-cell-role="th">user_comments</th>
+<th data-quarto-table-cell-role="th">user_request</th>
+<th data-quarto-table-cell-role="th">rank</th>
+<th data-quarto-table-cell-role="th">user</th>
+<th data-quarto-table-cell-role="th">primary_attachment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>16613800</td>
+<td></td>
+<td>Abandoned Automobile</td>
+<td>No license plate. Car has been parked for more...</td>
+<td>submitted</td>
+<td>1801 Poplar St, Philadelphia, PA 19130, USA</td>
+<td></td>
+<td>None</td>
+<td>17469525</td>
+<td>1741640012</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39.971105</td>
+<td>-75.166067</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>16613795</td>
+<td></td>
+<td>Recycling Collection</td>
+<td>Our house was skipped for recycling pick up</td>
+<td>submitted</td>
+<td>1240 Hemlock Dr, Philadelphia, PA 19116, USA</td>
+<td></td>
+<td>None</td>
+<td>17469515</td>
+<td>1741639828</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>40.123736</td>
+<td>-74.998319</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>Erinfurlong5</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>16613763</td>
+<td></td>
+<td>Other</td>
+<td></td>
+<td>submitted</td>
+<td>9956 Haldeman Ave, Philadelphia, PA 19115, USA</td>
+<td></td>
+<td>None</td>
+<td>17469497</td>
+<td>1741639537</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>40.097034</td>
+<td>-75.022874</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>KENYETTA THOMAS</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>16613760</td>
+<td>https://d17aqltn7cihbm.cloudfront.net/uploads/...</td>
+<td>Dangerous Building Complaint</td>
+<td>Signage on the verge of falling on pedestrians</td>
+<td>submitted</td>
+<td>2101 S Beechwood St, Philadelphia, PA 19145, USA</td>
+<td></td>
+<td>None</td>
+<td>17469495</td>
+<td>1741639534</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39.925888</td>
+<td>-75.182168</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>jjjjj</td>
+<td>{'id': 5377066, 'extension': 'jpg', 'content_t...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>16613739</td>
+<td>https://d17aqltn7cihbm.cloudfront.net/uploads/...</td>
+<td>Illegal Dumping</td>
+<td>Metal debris piled on sidewalk</td>
+<td>submitted</td>
+<td>850 Moyer St,Philadelphia, PA 19125</td>
+<td>Philadelphia, Pennsylvania</td>
+<td>19125</td>
+<td>17469483</td>
+<td>1741639328</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39.973475</td>
+<td>-75.123507</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>D-RUNKLE</td>
+<td>{'id': 5377056, 'extension': 'jpg', 'content_t...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>16613732</td>
+<td></td>
+<td>Fire Safety Complaint</td>
+<td>I live across the street from the small row ho...</td>
+<td>submitted</td>
+<td>207 Watkins St,Philadelphia, PA 19148</td>
+<td>Philadelphia, Pennsylvania</td>
+<td>19148</td>
+<td>NaN</td>
+<td>1741639187</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39.926467</td>
+<td>-75.149833</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>annaboland</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>16613708</td>
+<td></td>
+<td>Dangerous Building Complaint</td>
+<td>This property has caught fire sometime last Ju...</td>
+<td>submitted</td>
+<td>1234 W Cambria St, Philadelphia, PA 19133, USA</td>
+<td></td>
+<td>None</td>
+<td>17469466</td>
+<td>1741638936</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39.996532</td>
+<td>-75.151186</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>16613686</td>
+<td></td>
+<td>Abandoned Automobile</td>
+<td>The car has been parked on the street for abou...</td>
+<td>submitted</td>
+<td>2944 Disston St, Philadelphia, PA 19149, USA</td>
+<td></td>
+<td>None</td>
+<td>17469453</td>
+<td>1741638728</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>40.037486</td>
+<td>-75.055685</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>16613661</td>
+<td>https://d17aqltn7cihbm.cloudfront.net/uploads/...</td>
+<td>Graffiti Removal Request</td>
+<td>None</td>
+<td>submitted</td>
+<td>3799 Walnut St,Philadelphia, PA 19104</td>
+<td>Philadelphia, Pennsylvania</td>
+<td>19104</td>
+<td>17469435</td>
+<td>1741638445</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39.953767</td>
+<td>-75.198408</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td>{'id': 5377041, 'extension': 'jpg', 'content_t...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>16613656</td>
+<td>https://d17aqltn7cihbm.cloudfront.net/uploads/...</td>
+<td>Abandoned Automobile</td>
+<td>Blue Honda Pilot parked in same spot. Has not ...</td>
+<td>submitted</td>
+<td>2841 S Beulah St,Philadelphia, PA 19148</td>
+<td>Philadelphia, Pennsylvania</td>
+<td>19148</td>
+<td>17469432</td>
+<td>1741638403</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>39.913041</td>
+<td>-75.160781</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>scssd2</td>
+<td>{'id': 5377040, 'extension': 'jpg', 'content_t...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Let’s focus on the “description” column. This is the narrative text that the user inputs when entering a 311 request, and it is an example of <em>semi-structured</em> data. For the rest of today, we’ll focus on how to extract information from semi-structured data.</p>
+<section id="semi-structured-data" class="level3">
+<h3 class="anchored" data-anchor-id="semi-structured-data">Semi-structured data</h3>
+<p>Data that contains some elements that cannot be easily consumed by computers</p>
+<p><strong>Examples:</strong> human-readable text, audio, images, etc</p>
+</section>
+<section id="key-challenges" class="level3">
+<h3 class="anchored" data-anchor-id="key-challenges">Key challenges</h3>
+<ul>
+<li><strong>Text mining</strong>: analyzing blocks of text to extract the relevant pieces of information</li>
+<li><strong>Natural language processing (NLP)</strong>: programming computers to process and analyze human languages</li>
+<li><strong>Sentiment analysis</strong>: analyzing blocks of text to derive the attitude or emotional state of the person</li>
+</ul>
+<p>NB: Twitter is one of the main API examples of semi-structured data, but since Elon Musk overhauled the API access, it’s become prohibitively expensive to access (RIP 💀)</p>
+<p>To get started, let’s remove any requests where the description is missing:</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.dropna(subset<span class="op">=</span>[<span class="st">"description"</span>])</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data_final <span class="op">=</span> data.loc[data[<span class="st">"description"</span>] <span class="op">!=</span> <span class="st">""</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Strip out spaces and convert to a list</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>descriptions <span class="op">=</span> data_final[<span class="st">"description"</span>].<span class="bu">str</span>.strip().tolist()</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>descriptions[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>['No license plate. Car has been parked for more than 2 months',
+ 'Our house was skipped for recycling pick up',
+ 'Signage on the verge of falling on pedestrians',
+ 'Metal debris piled on sidewalk',
+ 'I live across the street from the small row home that is inhabited by squatters who have propane tanks all over the living room that I can see as I walk by when they leave their door open. They are drug users so my biggest fear is that they fall asleep or like something on fire and they call an explosion. They also are soliciting sex for drugs out of the home and I have all of this on camera footage not the propane tanks but I can try to get pictures next time The door is open. My biggest fear is I have a teenage daughter and something is going to happen that causes me or my family harm.',
+ 'This property has caught fire sometime last June and was sealed up.  Since then an unknown person or persons has taken off the boards and are now trying to live in this property.  Can you please put a rush on boarding up this property',
+ 'The car has been parked on the street for about one month.  The windows are very dark and it there is the arm of a jacket or sweat jacket hanging from the drivers side door.  It seems strange.',
+ 'Blue Honda Pilot parked in same spot. Has not moved for months.',
+ 'Selling refrigerator stoves washer and dryer on side wall of residential neighborhood',
+ 'They did not pick up the trash that was out there since early this morning']</code></pre>
+</div>
+</div>
+</section>
+<section id="use-case-1-calculating-word-frequencies" class="level3">
+<h3 class="anchored" data-anchor-id="use-case-1-calculating-word-frequencies">Use case #1: calculating word frequencies</h3>
+<p>An example of <strong>text mining</strong></p>
+<section id="text-mining-and-dealing-with-messy-data" class="level4">
+<h4 class="anchored" data-anchor-id="text-mining-and-dealing-with-messy-data">Text mining and dealing with messy data</h4>
+<p>Some steps to clean up our text data:</p>
+<ol type="1">
+<li>Break strings into words</li>
+<li>Remove capitalization</li>
+<li>Remove stop words</li>
+<li>Remove punctuation</li>
+</ol>
+<p><strong>1. Break strings into words</strong></p>
+<p>Use the <code>.split()</code> command to break a string into words by splitting on spaces.</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>example_string <span class="op">=</span> <span class="st">"This is an Example"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>example_string.split()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>['This', 'is', 'an', 'Example']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>descriptions_words <span class="op">=</span> [desc.split() <span class="cf">for</span> desc <span class="kw">in</span> descriptions]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>descriptions_words[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>['No',
+ 'license',
+ 'plate.',
+ 'Car',
+ 'has',
+ 'been',
+ 'parked',
+ 'for',
+ 'more',
+ 'than',
+ '2',
+ 'months']</code></pre>
+</div>
+</div>
+<p>This is a list of lists, e.g., the first element is a list of words. Let’s <em>flatten</em> this into a list of just words:</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>descriptions_words_flat <span class="op">=</span> []</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> list_of_words <span class="kw">in</span> descriptions_words:</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> word <span class="kw">in</span> list_of_words:</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        descriptions_words_flat.append(word)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>descriptions_words_flat[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>'No'</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(descriptions_words_flat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>11532</code></pre>
+</div>
+</div>
+<p><strong>2. Convert all words to lower case</strong></p>
+<p>Use <code>.lower()</code> makes all words lower cased</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>descriptions_words_lower <span class="op">=</span> [word.lower() <span class="cf">for</span> word <span class="kw">in</span> descriptions_words_flat]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>descriptions_words_lower[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>['no',
+ 'license',
+ 'plate.',
+ 'car',
+ 'has',
+ 'been',
+ 'parked',
+ 'for',
+ 'more',
+ 'than']</code></pre>
+</div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(descriptions_words_lower)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>11532</code></pre>
+</div>
+</div>
+<p><strong>3. Remove stop words</strong></p>
+<p>Common words that do not carry much significance and are often ignored in text analysis.</p>
+<p>We can use the <code>nltk</code> package.</p>
+<p>The “Natural Language Toolkit” https://www.nltk.org/</p>
+<p>Import and download the stop words:</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">"stopwords"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package stopwords to
+[nltk_data]     /Users/delmelle/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.</code></pre>
+</div>
+</div>
+<p>Get the list of common stop words:</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>stop_words <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(nltk.corpus.stopwords.words(<span class="st">"english"</span>)))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>stop_words[:<span class="dv">100</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>['couldn',
+ 'this',
+ 'for',
+ 'if',
+ "wouldn't",
+ "shouldn't",
+ 'such',
+ 'a',
+ "it'd",
+ 'does',
+ 'shan',
+ "she'll",
+ "isn't",
+ 'ourselves',
+ 'those',
+ "weren't",
+ "we've",
+ 'the',
+ 'isn',
+ 'same',
+ "you've",
+ 'not',
+ 'out',
+ 'so',
+ 'i',
+ "needn't",
+ 'did',
+ 'through',
+ 'mustn',
+ 'my',
+ 'no',
+ 'you',
+ 'themselves',
+ 'been',
+ 'nor',
+ 'during',
+ 'by',
+ "should've",
+ 'off',
+ 'doing',
+ 'ours',
+ "they'd",
+ "couldn't",
+ "that'll",
+ 'whom',
+ 'any',
+ 'own',
+ 'under',
+ 'until',
+ 'yourself',
+ "won't",
+ 'her',
+ "i'm",
+ 'as',
+ "didn't",
+ "mustn't",
+ 'were',
+ 'all',
+ "it's",
+ 'who',
+ "you'll",
+ "they'll",
+ 'each',
+ 'while',
+ 'itself',
+ 'them',
+ 'can',
+ 'from',
+ 'hadn',
+ 'or',
+ 'am',
+ "he's",
+ 'its',
+ "i've",
+ 'needn',
+ 'below',
+ 'is',
+ "aren't",
+ 'some',
+ "they're",
+ 'we',
+ 'it',
+ 'only',
+ 'him',
+ 'they',
+ 'weren',
+ 'to',
+ "haven't",
+ 'above',
+ 'y',
+ 'more',
+ 'before',
+ 'wasn',
+ 'having',
+ 't',
+ 'herself',
+ 'won',
+ 'in',
+ "we'd",
+ "it'll"]</code></pre>
+</div>
+</div>
+<p>len(stop_words)</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>descriptions_no_stop <span class="op">=</span> []</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> word <span class="kw">in</span> descriptions_words_lower:</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stop_words:</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>        descriptions_no_stop.append(word)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>descriptions_no_stop <span class="op">=</span> [</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    word <span class="cf">for</span> word <span class="kw">in</span> descriptions_words_lower <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stop_words</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(descriptions_no_stop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>6976</code></pre>
+</div>
+</div>
+<p><strong>4. Remove punctuation</strong></p>
+<p>Get the list of common punctuation:</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>punctuation <span class="op">=</span> <span class="bu">list</span>(string.punctuation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>punctuation[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>['!', '"', '#', '$', '%']</code></pre>
+</div>
+</div>
+<p>Remove punctuation from words:</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>descriptions_final <span class="op">=</span> []</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over all words</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> word <span class="kw">in</span> descriptions_no_stop:</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove any punctuation from the words</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> p <span class="kw">in</span> punctuation:</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>        word <span class="op">=</span> word.replace(p, <span class="st">""</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save it if the string is not empty</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> word <span class="op">!=</span> <span class="st">""</span>:</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>        descriptions_final.append(word)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Convert to a Dataframe with one column:</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> pd.DataFrame({<span class="st">"words"</span>: descriptions_final})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>words.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">words</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>license</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>plate</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>car</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>parked</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Calculate the word frequencies</strong></p>
+<p>Use a pandas groupby and sort to put in descending order:</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> (</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    words.groupby(<span class="st">"words"</span>, as_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    .size()</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    .sort_values(<span class="st">"size"</span>, ascending<span class="op">=</span><span class="va">False</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>top15 <span class="op">=</span> N.head(<span class="dv">15</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>top15</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">words</th>
+<th data-quarto-table-cell-role="th">size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>street</td>
+<td>136</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>trash</td>
+<td>71</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>people</td>
+<td>54</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>tricked</td>
+<td>50</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>parked</td>
+<td>47</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>block</td>
+<td>46</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>car</td>
+<td>45</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>please</td>
+<td>42</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>months</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>property</td>
+<td>39</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>side</td>
+<td>38</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>place</td>
+<td>34</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>sidewalk</td>
+<td>34</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>housing</td>
+<td>33</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>front</td>
+<td>33</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Plot the frequencies</strong></p>
+<p>Use <code>seaborn</code> to plot our DataFrame of word counts…</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>))</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot horizontal bar graph</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>sns.barplot(</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"words"</span>,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"size"</span>,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>top15,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>ax,</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"#cc3000"</span>,</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    saturation<span class="op">=</span><span class="fl">1.0</span>,</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Most Common Words Found in 311 Requests"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="API_textAnalytics_Census_files/figure-html/cell-33-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Takeaway:</strong> Philly cares about trash! They don’t call it Filthadelphia for nothing…</p>
+</section>
+</section>
+<section id="sentiment-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="sentiment-analysis">Sentiment Analysis</h2>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data analysis</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co"># APIs</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> holoviews <span class="im">as</span> hv</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.pandas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> words.groupby(<span class="st">"words"</span>, as_index<span class="op">=</span><span class="va">False</span>).size().sort_values(<span class="st">"size"</span>, ascending<span class="op">=</span><span class="va">False</span>, ignore_index<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>The goal</strong></p>
+<p>Determine the “sentiment” of every word in the English language</p>
+<p><em>The hard way</em></p>
+<p>Train a machine learning algorithm to classify words as positive vs.&nbsp;negative, given an input training sample of words.</p>
+<p><em>The easy way</em></p>
+<p>Luckily, this is a <strong>very common</strong> task in NLP and there are several packages available that have done the hard work for you.</p>
+<p>They provide out-of-the-box sentiment analysis using pre-trained machine learning algorithms.</p>
+<section id="the-textblob-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-textblob-package">The <code>textblob</code> package</h4>
+<p>First, let’s try out a package called <code>textblob</code>. Textblob can calculate the “polarity” of words, from negative -1 to postive +1.</p>
+<p>It’s algorithm is not particularly sophisticated (as we will see). It was trained on IMDB movie reviews and uses a dictionary mapping of adjectives to sentiment values. So, it knows about a set of adjectives and an approximate <em>polarity</em> for those words.</p>
+<p>Let’s try it out on the words from the 311 requests</p>
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> textblob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, copy our “words” dataframe and drop any duplicate words. We’ll try to calculate the sentiment for each word.</p>
+<div class="cell" data-tags="[]" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>sentiment <span class="op">=</span> words.copy().drop_duplicates(subset<span class="op">=</span>[<span class="st">'words'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>sentiment.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">words</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>license</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>plate</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>car</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>parked</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Now, create our “text blob” objects:</p>
+<div class="cell" data-tags="[]" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>blobs <span class="op">=</span> [textblob.TextBlob(word) <span class="cf">for</span> word <span class="kw">in</span> sentiment[<span class="st">'words'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now use the “.polarity” attribute to calculate the sentiment:</p>
+<div class="cell" data-tags="[]" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>sentiment[<span class="st">"polarity"</span>] <span class="op">=</span> [blob.polarity <span class="cf">for</span> blob <span class="kw">in</span> blobs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>sentiment.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">words</th>
+<th data-quarto-table-cell-role="th">polarity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>license</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>plate</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>car</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>parked</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>months</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>house</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>skipped</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>recycling</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>pick</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Most of these words are zero!</p>
+<div class="cell" data-tags="[]" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>(sentiment[<span class="st">'polarity'</span>] <span class="op">==</span> <span class="dv">0</span>).<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="46">
+<pre><code>1713</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(sentiment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>1862</code></pre>
+</div>
+</div>
+<p>Why did this happen?</p>
+<p>Because the universe of words that TextBlob knows about is pretty small! Mostly confined to common adjectives/adverbs that appeared in its IMDB review dataset.</p>
+<p>Let’s take a look at the words with nonzero polarity:</p>
+<div class="cell" data-tags="[]" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>sentiment_nonzero <span class="op">=</span> sentiment.query(<span class="st">"polarity != 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>What are the top 15 most positive words?</p>
+<div class="cell" data-tags="[]" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>sentiment_nonzero.sort_values(<span class="st">"polarity"</span>, ascending<span class="op">=</span><span class="va">False</span>, ignore_index<span class="op">=</span><span class="va">True</span>).head(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">words</th>
+<th data-quarto-table-cell-role="th">polarity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>best</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>fly</td>
+<td>0.8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>good</td>
+<td>0.7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>hazardous</td>
+<td>0.6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>lmao</td>
+<td>0.6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>safely</td>
+<td>0.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>safe</td>
+<td>0.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>sure</td>
+<td>0.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>mostly</td>
+<td>0.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>respectful</td>
+<td>0.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>many</td>
+<td>0.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>more</td>
+<td>0.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>latest</td>
+<td>0.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>healthy</td>
+<td>0.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>able</td>
+<td>0.5</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>What are the top 15 most negative words?</p>
+<div class="cell" data-tags="[]" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>sentiment_nonzero.sort_values(<span class="st">"polarity"</span>, ascending<span class="op">=</span><span class="va">True</span>, ignore_index<span class="op">=</span><span class="va">True</span>).head(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">words</th>
+<th data-quarto-table-cell-role="th">polarity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>worst</td>
+<td>-1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>terrible</td>
+<td>-1.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>nasty</td>
+<td>-1.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>disgusting</td>
+<td>-1.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>base</td>
+<td>-0.800000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>sick</td>
+<td>-0.714286</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>bad</td>
+<td>-0.700000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>impossible</td>
+<td>-0.666667</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>dangerously</td>
+<td>-0.600000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>cold</td>
+<td>-0.600000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>crazy</td>
+<td>-0.600000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>afraid</td>
+<td>-0.600000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>dangerous</td>
+<td>-0.600000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>stinks</td>
+<td>-0.600000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>dirty</td>
+<td>-0.600000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>What about a histogram of the sentiment?</p>
+<div class="cell" data-tags="[]" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a figure and axes</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">4.5</span>))</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="co"># histogram</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>ax.hist(sentiment_nonzero[<span class="st">"polarity"</span>], bins<span class="op">=</span><span class="st">"auto"</span>)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">0</span>, c<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="co"># format</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Polarity"</span>)</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Polarity of 311 Request Words"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="API_textAnalytics_Census_files/figure-html/cell-47-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Hmm…this is surprising! There are many more positive words than I would have guessed!</p>
+<p><strong>What could be going on?</strong></p>
+<p>Most of the 311 requests are in fact <em>very</em> negative. They are mostly complaints, after all.</p>
+<p>In the previous analysis, TextBlob only knows the sentiment for a <em>small</em> subset of the words. This is makes it difficult to produce a comprehensive sentiment for the entirety of the text for each 311 request. This is difficult because context really matters! Let’s see an example:</p>
+<p>As you can see in the below example, the negation is not picked up by the algorithm:</p>
+<div class="cell" data-tags="[]" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>textblob.TextBlob(<span class="st">"Philly 311 is the best"</span>).polarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>1.0</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>textblob.TextBlob(<span class="st">"Philly 311 is NOT the best"</span>).polarity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<pre><code>1.0</code></pre>
+</div>
+</div>
+<p>Both are marked as positive! (because of the word “best”)</p>
+<p>Can we do better? YES!</p>
+</section>
+<section id="the-transformers-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-transformers-package">The <code>transformers</code> package</h4>
+<p>The Hugging Face <code>transformers</code> package (<a href="https://huggingface.co/docs/transformers/index">documentation</a>) provides access to state-of-the-art, pre-trained machine learning algorithms for natural language processing.</p>
+<p>It provides access to more sophisticated machine learning models that are capable of measuring the sentiment of a piece of text using the full context of the words.</p>
+<p>We can use the transformers <code>pipeline()</code> function to load and run our pre-trained models</p>
+<div class="cell" data-tags="[]" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="positivenegative-sentiment-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="positivenegative-sentiment-analysis">Positive/Negative sentiment analysis</h4>
+<p>We’ll start with a version of the <a href="https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english">DistilBERT</a> model that has been fine-tuned on the <a href="https://huggingface.co/datasets/sst2">Stanford Sentiment Treebank</a> dataset.</p>
+<p>For an input series of text, this model will predict the POSITIVE / NEGATIVE labels with associated confidence scores. It will tell us how likely it thinks the text is positive or negative.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For more info on sentiment analysis with the <code>transformers</code> package, check out this <a href="https://huggingface.co/docs/transformers/tasks/sequence_classification">tutorial</a>.</p>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The name of the model we are using</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="st">"distilbert-base-uncased-finetuned-sst-2-english"</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize our sentiment analyzer</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>sentiment_classifier <span class="op">=</span> pipeline(</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>    task<span class="op">=</span><span class="st">"sentiment-analysis"</span>,  <span class="co"># The task we are doing</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,  <span class="co"># The specific model name</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>    top_k<span class="op">=</span><span class="va">None</span>,  <span class="co"># Predict all labels, not just top ones</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>    tokenizer<span class="op">=</span>model,  <span class="co"># Tokenize inputs using model tokenizer</span></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>    truncation<span class="op">=</span><span class="va">True</span>,  <span class="co"># Truncate text if we need to</span></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/delmelle/miniforge3/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(</code></pre>
+</div>
+</div>
+<p>Now, let’s pass our original list of request descriptions to the classifier.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We don’t need to do any text pre-processing here! We’ll just pass in the raw text, so no need to remove stop words, punctuation, etc.</p>
+</div>
+</div>
+<p>We’re now running a much more sophisticated model, so it will take more time to execute! This will likely take 2-3 minutes to run…</p>
+<div class="cell" data-tags="[]" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> sentiment_classifier(descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 1min 10s, sys: 1.72 s, total: 1min 12s
+Wall time: 10.3 s</code></pre>
+</div>
+</div>
+<p>What does the response structure look like?</p>
+<p>For each description, we get a dictionary containing the label (<code>POSITIVE</code> or <code>NEGATIVE</code>) and the associated score:</p>
+<div class="cell" data-tags="[]" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>scores[:<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="57">
+<pre><code>[[{'label': 'NEGATIVE', 'score': 0.9968447685241699},
+  {'label': 'POSITIVE', 'score': 0.003155315760523081}],
+ [{'label': 'NEGATIVE', 'score': 0.9995304346084595},
+  {'label': 'POSITIVE', 'score': 0.0004696148680523038}],
+ [{'label': 'NEGATIVE', 'score': 0.9974465370178223},
+  {'label': 'POSITIVE', 'score': 0.0025534331798553467}],
+ [{'label': 'NEGATIVE', 'score': 0.9981185793876648},
+  {'label': 'POSITIVE', 'score': 0.001881344011053443}],
+ [{'label': 'NEGATIVE', 'score': 0.9982715845108032},
+  {'label': 'POSITIVE', 'score': 0.0017284060595557094}],
+ [{'label': 'NEGATIVE', 'score': 0.9951809644699097},
+  {'label': 'POSITIVE', 'score': 0.004819096997380257}],
+ [{'label': 'NEGATIVE', 'score': 0.9953938722610474},
+  {'label': 'POSITIVE', 'score': 0.0046060942113399506}],
+ [{'label': 'NEGATIVE', 'score': 0.9963836669921875},
+  {'label': 'POSITIVE', 'score': 0.0036162862088531256}],
+ [{'label': 'NEGATIVE', 'score': 0.6846440434455872},
+  {'label': 'POSITIVE', 'score': 0.31535595655441284}],
+ [{'label': 'NEGATIVE', 'score': 0.9932594895362854},
+  {'label': 'POSITIVE', 'score': 0.006740528624504805}]]</code></pre>
+</div>
+</div>
+<p>Let’s unpack this to a more useful format:</p>
+<div class="cell" data-tags="[]" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>yes_no <span class="op">=</span> pd.DataFrame([{d[<span class="st">"label"</span>]: d[<span class="st">"score"</span>] <span class="cf">for</span> d <span class="kw">in</span> dd} <span class="cf">for</span> dd <span class="kw">in</span> scores]).assign(</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>descriptions</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>yes_no.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<pre><code>0    No license plate. Car has been parked for more...
+1          Our house was skipped for recycling pick up
+2       Signage on the verge of falling on pedestrians
+3                       Metal debris piled on sidewalk
+4    I live across the street from the small row ho...
+Name: text, dtype: object</code></pre>
+</div>
+</div>
+<p><strong>Note:</strong> The scores summed across both labels will sum up to 1.</p>
+<p><strong>Total sentiment calculation</strong>: We can calculate the overall score by multiplying the value for each label, e.g., (POSITIVE = +1 and NEGATIVE = -1) by the confidence score for each label. This gives an overall sentiment estimate for each piece of text:</p>
+<div class="cell" data-tags="[]" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>yes_no[<span class="st">"sentiment"</span>] <span class="op">=</span> (yes_no[<span class="st">"POSITIVE"</span>] <span class="op">*</span> <span class="op">+</span><span class="dv">1</span>) <span class="op">+</span> (yes_no[<span class="st">"NEGATIVE"</span>] <span class="op">*</span> <span class="op">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>yes_no.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="66">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">NEGATIVE</th>
+<th data-quarto-table-cell-role="th">POSITIVE</th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">sentiment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.996845</td>
+<td>0.003155</td>
+<td>No license plate. Car has been parked for more...</td>
+<td>-0.993689</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.999530</td>
+<td>0.000470</td>
+<td>Our house was skipped for recycling pick up</td>
+<td>-0.999061</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.997447</td>
+<td>0.002553</td>
+<td>Signage on the verge of falling on pedestrians</td>
+<td>-0.994893</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.998119</td>
+<td>0.001881</td>
+<td>Metal debris piled on sidewalk</td>
+<td>-0.996237</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.998272</td>
+<td>0.001728</td>
+<td>I live across the street from the small row ho...</td>
+<td>-0.996543</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Question:</strong> Are most of the reviews positive or negative?</p>
+<p>Let’s take a look at the mean and median:</p>
+<div class="cell" data-tags="[]" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>yes_no[<span class="st">'sentiment'</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="67">
+<pre><code>-0.8349780015063472</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="68">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>yes_no[<span class="st">'sentiment'</span>].median()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="68">
+<pre><code>-0.9954100323375314</code></pre>
+</div>
+</div>
+<p>Ah! By far, most of these are negative!</p>
+<p>Philadelphians using the 311 system appear to be <em>very</em> upset.</p>
+<p>Let’s take a look at the overall histogram of sentiment too:</p>
+<div class="cell" data-tags="[]" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a figure and axes</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">4.5</span>))</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram</span></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>ax.hist(yes_no[<span class="st">'sentiment'</span>], bins<span class="op">=</span><span class="st">"auto"</span>)</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span><span class="dv">0</span>, c<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Format</span></span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Polarity"</span>)</span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Polarity of 311 Requests"</span>, fontsize<span class="op">=</span><span class="dv">16</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="API_textAnalytics_Census_files/figure-html/cell-60-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Whoa! Very negative sentiment!</p>
+<p><strong>This makes much more sense than our earlier results with the Textblob package.</strong></p>
+<p>Let’s look at the 10 requests with the lowest sentiment scores:</p>
+<div class="cell" data-tags="[]" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>yes_no.sort_values(<span class="st">"sentiment"</span>, ascending<span class="op">=</span><span class="va">True</span>).head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="70">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">NEGATIVE</th>
+<th data-quarto-table-cell-role="th">POSITIVE</th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">sentiment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">339</td>
+<td>0.999801</td>
+<td>0.000199</td>
+<td>Looks like a sink hole</td>
+<td>-0.999602</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">26</td>
+<td>0.999796</td>
+<td>0.000204</td>
+<td>The car has been sitting in front of my house ...</td>
+<td>-0.999593</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">191</td>
+<td>0.999795</td>
+<td>0.000205</td>
+<td>A large service ditch in the left driving lane...</td>
+<td>-0.999590</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">425</td>
+<td>0.999792</td>
+<td>0.000208</td>
+<td>Large sink hole at the stop sign</td>
+<td>-0.999585</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">305</td>
+<td>0.999790</td>
+<td>0.000210</td>
+<td>Abandoned by local park over 6mo. All tires flat</td>
+<td>-0.999581</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">78</td>
+<td>0.999778</td>
+<td>0.000222</td>
+<td>Pothole is getting worse .</td>
+<td>-0.999556</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">226</td>
+<td>0.999775</td>
+<td>0.000225</td>
+<td>gray Ford Fusion appears disabled parked in th...</td>
+<td>-0.999550</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">277</td>
+<td>0.999774</td>
+<td>0.000226</td>
+<td>There are three inlets on the 2100 block of E ...</td>
+<td>-0.999548</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">217</td>
+<td>0.999767</td>
+<td>0.000233</td>
+<td>The oversized large indented hole is in front ...</td>
+<td>-0.999535</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">219</td>
+<td>0.999766</td>
+<td>0.000234</td>
+<td>Random assortment of dumped items. Started wit...</td>
+<td>-0.999532</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>And the 10 requests with the highest sentiment:</p>
+<div class="cell" data-tags="[]" data-execution_count="173">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>yes_no.sort_values(<span class="st">"sentiment"</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="173">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">NEGATIVE</th>
+<th data-quarto-table-cell-role="th">POSITIVE</th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">sentiment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">276</td>
+<td>0.000185</td>
+<td>0.999815</td>
+<td>Murphy Recreation Center rear wall. Thank you.</td>
+<td>0.999631</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">373</td>
+<td>0.000289</td>
+<td>0.999711</td>
+<td>Graffiti on sign. Please and thank you!</td>
+<td>0.999422</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">153</td>
+<td>0.000361</td>
+<td>0.999639</td>
+<td>Graffiti and stickers on parking sign pole. Pl...</td>
+<td>0.999278</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">246</td>
+<td>0.000832</td>
+<td>0.999168</td>
+<td>Again!!!</td>
+<td>0.998336</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">214</td>
+<td>0.004345</td>
+<td>0.995655</td>
+<td>street light out</td>
+<td>0.991310</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">141</td>
+<td>0.005592</td>
+<td>0.994408</td>
+<td>School district of Philadelphia</td>
+<td>0.988816</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">44</td>
+<td>0.005714</td>
+<td>0.994286</td>
+<td>Unleveled sidewalk where water collects/pools ...</td>
+<td>0.988572</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">181</td>
+<td>0.007140</td>
+<td>0.992860</td>
+<td>Please help and correct for all my neighbors s...</td>
+<td>0.985720</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">449</td>
+<td>0.010813</td>
+<td>0.989187</td>
+<td>Please pick up or remove this illegal dumping ...</td>
+<td>0.978373</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">204</td>
+<td>0.011188</td>
+<td>0.988812</td>
+<td>Capri restaurant building a new structure</td>
+<td>0.977624</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Takeaway</strong></p>
+<p>The model is still clearly focusing on some crucial words (please, thank you = “positive”) but overall, doing a much, much better job overall of understanding the full context of the text.</p>
+</section>
+<section id="emotion-sentiment-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="emotion-sentiment-analysis">Emotion sentiment analysis</h4>
+<p>The <code>transformers</code> package also includes pre-trained models that can predict <em>emotion</em> labels.</p>
+<p>As an example, let’s try out <a href="https://huggingface.co/bhadresh-savani/distilbert-base-uncased-emotion">this version</a> of the DistilBERT model that can predict the following labels for a string of text: anger, fear, sadness, joy, love, and surprise.</p>
+<div class="cell" data-tags="[]" data-execution_count="72">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The model</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="st">"bhadresh-savani/distilbert-base-uncased-emotion"</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize our sentiment analyzer</span></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>emotion_classifier <span class="op">=</span> pipeline(</span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>    task<span class="op">=</span><span class="st">"text-classification"</span>,  <span class="co"># The task we are doing</span></span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,  <span class="co"># The specific model name</span></span>
+<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a>    top_k<span class="op">=</span><span class="va">None</span>,  <span class="co"># Predict all labels, not just top ones</span></span>
+<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>    tokenizer<span class="op">=</span>model,  <span class="co"># Tokenize inputs using model tokenizer</span></span>
+<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>    truncation<span class="op">=</span><span class="va">True</span>,  <span class="co"># Truncate text if we need to</span></span>
+<span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/delmelle/miniforge3/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(</code></pre>
+</div>
+</div>
+<p>Classify the 311 descriptions using our emotions model. Once again, this will likely take 2-3 minutes to run:</p>
+<div class="cell" data-tags="[]" data-execution_count="73">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time </span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>emotion_scores <span class="op">=</span> emotion_classifier(descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 1min 8s, sys: 1.22 s, total: 1min 9s
+Wall time: 8.75 s</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="74">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>emotion_scores[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="74">
+<pre><code>[{'label': 'fear', 'score': 0.7331622242927551},
+ {'label': 'anger', 'score': 0.23640018701553345},
+ {'label': 'sadness', 'score': 0.013925026170909405},
+ {'label': 'joy', 'score': 0.013106637634336948},
+ {'label': 'surprise', 'score': 0.0023219578433781862},
+ {'label': 'love', 'score': 0.0010839784517884254}]</code></pre>
+</div>
+</div>
+<p>Unpack the label/score combos into a DataFrame:</p>
+<div class="cell" data-tags="[]" data-execution_count="75">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>emotion <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    [{d[<span class="st">"label"</span>]: d[<span class="st">"score"</span>] <span class="cf">for</span> d <span class="kw">in</span> dd} <span class="cf">for</span> dd <span class="kw">in</span> emotion_scores]</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>).assign(text<span class="op">=</span>descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>emotion.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="76">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fear</th>
+<th data-quarto-table-cell-role="th">anger</th>
+<th data-quarto-table-cell-role="th">sadness</th>
+<th data-quarto-table-cell-role="th">joy</th>
+<th data-quarto-table-cell-role="th">surprise</th>
+<th data-quarto-table-cell-role="th">love</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.733162</td>
+<td>0.236400</td>
+<td>0.013925</td>
+<td>0.013107</td>
+<td>0.002322</td>
+<td>0.001084</td>
+<td>No license plate. Car has been parked for more than 2 months</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.026432</td>
+<td>0.805123</td>
+<td>0.145952</td>
+<td>0.019186</td>
+<td>0.002276</td>
+<td>0.001031</td>
+<td>Our house was skipped for recycling pick up</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.982022</td>
+<td>0.011605</td>
+<td>0.003893</td>
+<td>0.001234</td>
+<td>0.001005</td>
+<td>0.000241</td>
+<td>Signage on the verge of falling on pedestrians</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.925558</td>
+<td>0.047537</td>
+<td>0.017832</td>
+<td>0.003040</td>
+<td>0.005226</td>
+<td>0.000807</td>
+<td>Metal debris piled on sidewalk</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.991878</td>
+<td>0.004407</td>
+<td>0.002045</td>
+<td>0.000935</td>
+<td>0.000492</td>
+<td>0.000243</td>
+<td>I live across the street from the small row home that is inhabited by squatters who have propane tanks all over the living room that I can see as I walk by when they leave their door open. They are drug users so my biggest fear is that they fall asleep or like something on fire and they call an explosion. They also are soliciting sex for drugs out of the home and I have all of this on camera footage not the propane tanks but I can try to get pictures next time The door is open. My biggest fear is I have a teenage daughter and something is going to happen that causes me or my family harm.</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Now, let’s calculate the predicted label for each text. This is the label with the highest score for each text.</p>
+<div class="cell" data-tags="[]" data-execution_count="77">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>emotion_labels <span class="op">=</span> [<span class="st">"anger"</span>, <span class="st">"fear"</span>, <span class="st">"sadness"</span>, <span class="st">"joy"</span>, <span class="st">"surprise"</span>, <span class="st">"love"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use the <code>idxmax()</code> function to find the column with the maximum value for each row:</p>
+<div class="cell" data-tags="[]" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>emotion[emotion_labels].idxmax(axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="78">
+<pre><code>0         fear
+1        anger
+2         fear
+3         fear
+4         fear
+5         fear
+6         fear
+7         fear
+8        anger
+9        anger
+10     sadness
+11       anger
+12        fear
+13        fear
+14       anger
+15         joy
+16     sadness
+17       anger
+18     sadness
+19        fear
+20       anger
+21       anger
+22        fear
+23       anger
+24       anger
+25        fear
+26       anger
+27        fear
+28        fear
+29        fear
+30        fear
+31       anger
+32       anger
+33       anger
+34       anger
+35       anger
+36         joy
+37     sadness
+38        fear
+39         joy
+40         joy
+41       anger
+42        fear
+43         joy
+44       anger
+45        fear
+46       anger
+47       anger
+48        fear
+49     sadness
+50     sadness
+51        fear
+52        fear
+53        fear
+54        fear
+55       anger
+56        fear
+57       anger
+58         joy
+59       anger
+60       anger
+61         joy
+62       anger
+63        fear
+64       anger
+65         joy
+66     sadness
+67        fear
+68       anger
+69        fear
+70         joy
+71         joy
+72     sadness
+73        fear
+74        fear
+75       anger
+76        fear
+77       anger
+78       anger
+79       anger
+80       anger
+81        fear
+82       anger
+83     sadness
+84       anger
+85     sadness
+86     sadness
+87        fear
+88       anger
+89        fear
+90        fear
+91        fear
+92       anger
+93       anger
+94       anger
+95        fear
+96       anger
+97     sadness
+98         joy
+99        fear
+100       fear
+101    sadness
+102      anger
+103      anger
+104       fear
+105       fear
+106       fear
+107       fear
+108    sadness
+109       fear
+110    sadness
+111       fear
+112      anger
+113      anger
+114       fear
+115    sadness
+116       fear
+117      anger
+118      anger
+119      anger
+120    sadness
+121      anger
+122      anger
+123    sadness
+124      anger
+125    sadness
+126       fear
+127        joy
+128    sadness
+129       fear
+130       fear
+131       fear
+132       fear
+133      anger
+134      anger
+135      anger
+136       fear
+137      anger
+138      anger
+139       fear
+140      anger
+141      anger
+142       fear
+143       fear
+144    sadness
+145       fear
+146        joy
+147        joy
+148    sadness
+149       fear
+150       fear
+151    sadness
+152       fear
+153      anger
+154       fear
+155       fear
+156       fear
+157      anger
+158      anger
+159    sadness
+160       fear
+161       fear
+162    sadness
+163    sadness
+164       fear
+165       fear
+166      anger
+167       fear
+168       fear
+169       fear
+170       fear
+171       fear
+172       fear
+173       fear
+174    sadness
+175      anger
+176        joy
+177      anger
+178      anger
+179    sadness
+180    sadness
+181    sadness
+182    sadness
+183    sadness
+184       fear
+185      anger
+186      anger
+187       fear
+188    sadness
+189      anger
+190      anger
+191       fear
+192    sadness
+193    sadness
+194       fear
+195      anger
+196      anger
+197       fear
+198       fear
+199        joy
+200       fear
+201        joy
+202      anger
+203       fear
+204      anger
+205    sadness
+206      anger
+207    sadness
+208       fear
+209      anger
+210      anger
+211    sadness
+212    sadness
+213      anger
+214       fear
+215       fear
+216       fear
+217       fear
+218    sadness
+219      anger
+220    sadness
+221       fear
+222       fear
+223       fear
+224    sadness
+225       fear
+226    sadness
+227       fear
+228    sadness
+229    sadness
+230       fear
+231       fear
+232       fear
+233    sadness
+234      anger
+235      anger
+236       fear
+237      anger
+238       fear
+239       fear
+240       fear
+241        joy
+242      anger
+243      anger
+244       fear
+245       fear
+246        joy
+247    sadness
+248        joy
+249       fear
+250        joy
+251       fear
+252        joy
+253        joy
+254        joy
+255        joy
+256      anger
+257    sadness
+258      anger
+259       fear
+260        joy
+261       fear
+262       fear
+263      anger
+264       fear
+265       fear
+266       fear
+267        joy
+268      anger
+269    sadness
+270       fear
+271    sadness
+272       fear
+273      anger
+274    sadness
+275    sadness
+276        joy
+277    sadness
+278       fear
+279       fear
+280      anger
+281      anger
+282      anger
+283      anger
+284      anger
+285       fear
+286    sadness
+287       fear
+288       fear
+289       fear
+290       fear
+291    sadness
+292        joy
+293       fear
+294       fear
+295      anger
+296       fear
+297       fear
+298      anger
+299      anger
+300    sadness
+301       fear
+302       fear
+303       fear
+304       fear
+305    sadness
+306      anger
+307      anger
+308      anger
+309       fear
+310       fear
+311       fear
+312      anger
+313       fear
+314      anger
+315       fear
+316      anger
+317       fear
+318       fear
+319    sadness
+320      anger
+321       fear
+322      anger
+323      anger
+324      anger
+325      anger
+326       fear
+327    sadness
+328       fear
+329      anger
+330      anger
+331      anger
+332      anger
+333      anger
+334      anger
+335        joy
+336       fear
+337    sadness
+338      anger
+339      anger
+340    sadness
+341       fear
+342    sadness
+343       fear
+344    sadness
+345       fear
+346      anger
+347    sadness
+348    sadness
+349    sadness
+350       fear
+351       fear
+352        joy
+353       fear
+354       fear
+355    sadness
+356      anger
+357      anger
+358    sadness
+359       fear
+360       fear
+361    sadness
+362       fear
+363       fear
+364       fear
+365       fear
+366       fear
+367       fear
+368       fear
+369       fear
+370       fear
+371       fear
+372       fear
+373       fear
+374       fear
+375    sadness
+376       fear
+377       fear
+378       fear
+379       fear
+380    sadness
+381      anger
+382       fear
+383    sadness
+384      anger
+385        joy
+386      anger
+387       fear
+388      anger
+389       fear
+390        joy
+391      anger
+392    sadness
+393       fear
+394       fear
+395      anger
+396       fear
+397      anger
+398      anger
+399      anger
+400      anger
+401      anger
+402    sadness
+403      anger
+404        joy
+405      anger
+406      anger
+407       fear
+408        joy
+409      anger
+410      anger
+411       fear
+412    sadness
+413       fear
+414       fear
+415      anger
+416       fear
+417       fear
+418      anger
+419       fear
+420       fear
+421      anger
+422       fear
+423       fear
+424    sadness
+425      anger
+426    sadness
+427      anger
+428       fear
+429       fear
+430    sadness
+431       fear
+432       fear
+433        joy
+434       fear
+435       fear
+436       fear
+437      anger
+438      anger
+439      anger
+440       fear
+441      anger
+442       fear
+443      anger
+444       fear
+445      anger
+446       fear
+447      anger
+448      anger
+449        joy
+450      anger
+451      anger
+452       fear
+dtype: object</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>emotion[<span class="st">'prediction'</span>] <span class="op">=</span> emotion[emotion_labels].idxmax(axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="80">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>emotion.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="80">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fear</th>
+<th data-quarto-table-cell-role="th">anger</th>
+<th data-quarto-table-cell-role="th">sadness</th>
+<th data-quarto-table-cell-role="th">joy</th>
+<th data-quarto-table-cell-role="th">surprise</th>
+<th data-quarto-table-cell-role="th">love</th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.733162</td>
+<td>0.236400</td>
+<td>0.013925</td>
+<td>0.013107</td>
+<td>0.002322</td>
+<td>0.001084</td>
+<td>No license plate. Car has been parked for more than 2 months</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.026432</td>
+<td>0.805123</td>
+<td>0.145952</td>
+<td>0.019186</td>
+<td>0.002276</td>
+<td>0.001031</td>
+<td>Our house was skipped for recycling pick up</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.982022</td>
+<td>0.011605</td>
+<td>0.003893</td>
+<td>0.001234</td>
+<td>0.001005</td>
+<td>0.000241</td>
+<td>Signage on the verge of falling on pedestrians</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.925558</td>
+<td>0.047537</td>
+<td>0.017832</td>
+<td>0.003040</td>
+<td>0.005226</td>
+<td>0.000807</td>
+<td>Metal debris piled on sidewalk</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.991878</td>
+<td>0.004407</td>
+<td>0.002045</td>
+<td>0.000935</td>
+<td>0.000492</td>
+<td>0.000243</td>
+<td>I live across the street from the small row home that is inhabited by squatters who have propane tanks all over the living room that I can see as I walk by when they leave their door open. They are drug users so my biggest fear is that they fall asleep or like something on fire and they call an explosion. They also are soliciting sex for drugs out of the home and I have all of this on camera footage not the propane tanks but I can try to get pictures next time The door is open. My biggest fear is I have a teenage daughter and something is going to happen that causes me or my family harm.</td>
+<td>fear</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>What’s the breakdown across the predicted labels?</p>
+<div class="cell" data-tags="[]" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>emotion.groupby(<span class="st">"prediction"</span>).size().plot(kind<span class="op">=</span><span class="st">'barh'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="API_textAnalytics_Census_files/figure-html/cell-72-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Takeaway:</strong> Most descriptions are classified as “fear” or “anger”</p>
+<p>How about visualizing the full distribution of scores across all emotions?</p>
+<p>Let’s get a tidy version for analysis:</p>
+<div class="cell" data-tags="[]" data-execution_count="82">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>emotion_tidy <span class="op">=</span> emotion.melt(</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span>[<span class="st">"text"</span>], value_vars<span class="op">=</span>emotion_labels, var_name<span class="op">=</span><span class="st">"emotion"</span>, value_name<span class="op">=</span><span class="st">"score"</span></span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="83">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>emotion_tidy.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="83">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">emotion</th>
+<th data-quarto-table-cell-role="th">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>No license plate. Car has been parked for more than 2 months</td>
+<td>anger</td>
+<td>0.236400</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Our house was skipped for recycling pick up</td>
+<td>anger</td>
+<td>0.805123</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Signage on the verge of falling on pedestrians</td>
+<td>anger</td>
+<td>0.011605</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Metal debris piled on sidewalk</td>
+<td>anger</td>
+<td>0.047537</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>I live across the street from the small row home that is inhabited by squatters who have propane tanks all over the living room that I can see as I walk by when they leave their door open. They are drug users so my biggest fear is that they fall asleep or like something on fire and they call an explosion. They also are soliciting sex for drugs out of the home and I have all of this on camera footage not the propane tanks but I can try to get pictures next time The door is open. My biggest fear is I have a teenage daughter and something is going to happen that causes me or my family harm.</td>
+<td>anger</td>
+<td>0.004407</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Make a box plot of the distribution across all emotions:</p>
+<div class="cell" data-tags="[]" data-execution_count="84">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>sns.catplot(data<span class="op">=</span>emotion_tidy, x<span class="op">=</span><span class="st">"emotion"</span>, y<span class="op">=</span><span class="st">"score"</span>, kind<span class="op">=</span><span class="st">"box"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="API_textAnalytics_Census_files/figure-html/cell-75-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Takeaway:</strong></p>
+<p>Fear and anger! For emotions other than anger/fear, confidence scores are concentrated near zero, indicating that the text likely does not contain those emotions.</p>
+<p>Let’s do a deeper dive on some of the emotions:</p>
+<p><strong>Anger</strong></p>
+<div class="cell" data-tags="[]" data-execution_count="85">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>angry_requests <span class="op">=</span> emotion.query(<span class="st">"anger &gt; 0.8"</span>).sort_values(<span class="st">"anger"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="86">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(angry_requests)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="86">
+<pre><code>58</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="87">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>angry_requests.head(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="87">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fear</th>
+<th data-quarto-table-cell-role="th">anger</th>
+<th data-quarto-table-cell-role="th">sadness</th>
+<th data-quarto-table-cell-role="th">joy</th>
+<th data-quarto-table-cell-role="th">surprise</th>
+<th data-quarto-table-cell-role="th">love</th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">134</td>
+<td>0.000784</td>
+<td>0.998015</td>
+<td>0.000587</td>
+<td>0.000264</td>
+<td>0.000162</td>
+<td>0.000188</td>
+<td>Trash collection didn't pick up trash that's on the curb. Picked up all neighbors trash but never bothered to look on curb at my residence.</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">346</td>
+<td>0.001738</td>
+<td>0.996879</td>
+<td>0.000417</td>
+<td>0.000441</td>
+<td>0.000193</td>
+<td>0.000333</td>
+<td>Very Dangerous and has been there for a long while.</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">284</td>
+<td>0.001728</td>
+<td>0.996067</td>
+<td>0.000893</td>
+<td>0.000678</td>
+<td>0.000261</td>
+<td>0.000374</td>
+<td>This is disgusting. It needs to be clean. It is deadly and can kill a kid</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">421</td>
+<td>0.003270</td>
+<td>0.995120</td>
+<td>0.000603</td>
+<td>0.000580</td>
+<td>0.000172</td>
+<td>0.000254</td>
+<td>Hi! \r\n\r\nThis person continues to park here for most of the day and night. They think it's their personal parking spot. It's extremely dangerous as you can't see as you pull out of Ogden and people can't see you coming up 16th. This has been a problem for over a year now and it's not enforced. This person is just the latest taking advantage of that. I've seen many accidents and have been part of one myself. I've been trying to report this for months, but I've never seen a ticket on their car. And I see it daily</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">334</td>
+<td>0.003793</td>
+<td>0.994834</td>
+<td>0.000641</td>
+<td>0.000316</td>
+<td>0.000162</td>
+<td>0.000254</td>
+<td>dangerous motorcycle on sidewalk, have ìt removed. Dangerous for children and pedestrian.</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">94</td>
+<td>0.002170</td>
+<td>0.994699</td>
+<td>0.002430</td>
+<td>0.000417</td>
+<td>0.000125</td>
+<td>0.000159</td>
+<td>Empty lot for years - tons of dangerous metal, rocks, and trash. Tons of trash - property owners have not taken care of lot.</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>0.004276</td>
+<td>0.994185</td>
+<td>0.000472</td>
+<td>0.000551</td>
+<td>0.000202</td>
+<td>0.000315</td>
+<td>Can you place speed cushions on Ellicott road? Cars are speeding thru the neighborhood. There are kids playing everywhere in the neighborhood. Very dangerous for children</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">381</td>
+<td>0.004392</td>
+<td>0.993281</td>
+<td>0.001329</td>
+<td>0.000635</td>
+<td>0.000159</td>
+<td>0.000204</td>
+<td>There are two breaks, bracketing this address, though not too closely. Maybe emerging from the property, but the southern break is definitely damaging the sidewalk integrity in a dangerous way, like a forming sinkhole. I tried calling the Water Emergency number but it hung up on me repeatedly.</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">84</td>
+<td>0.005923</td>
+<td>0.992241</td>
+<td>0.000838</td>
+<td>0.000620</td>
+<td>0.000180</td>
+<td>0.000198</td>
+<td>Traffic light not working at this extremely dangerous intersection</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">166</td>
+<td>0.008769</td>
+<td>0.989099</td>
+<td>0.000808</td>
+<td>0.000853</td>
+<td>0.000215</td>
+<td>0.000258</td>
+<td>The illuminating light at the traffic stop (not the traffic light) is not working making it dangerous.</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">306</td>
+<td>0.009358</td>
+<td>0.988848</td>
+<td>0.000753</td>
+<td>0.000574</td>
+<td>0.000223</td>
+<td>0.000244</td>
+<td>Stop sign has come off its post, and tons of people are blowing through the intersection now, creating a dangerous situation. Tons of kids in the neighborhood and a park one block east. Needs to be fixed immediately.</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">158</td>
+<td>0.001566</td>
+<td>0.988236</td>
+<td>0.007613</td>
+<td>0.001890</td>
+<td>0.000165</td>
+<td>0.000531</td>
+<td>4900 to 5000 n pine street the whole block dangerous pot holes your whole tire goes down. Going to be a terrible accident. Please repair. Thank you.</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">213</td>
+<td>0.010939</td>
+<td>0.986847</td>
+<td>0.001292</td>
+<td>0.000472</td>
+<td>0.000199</td>
+<td>0.000252</td>
+<td>Dangerous hike from water line shut off. Turn on. Hole is present.</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">273</td>
+<td>0.004262</td>
+<td>0.982962</td>
+<td>0.011525</td>
+<td>0.000729</td>
+<td>0.000261</td>
+<td>0.000261</td>
+<td>Sewage being pumped out on the sidewalk all day. It smells bad.\r\nTenant is renting the house and complained to me that the landlord is not doing anything and it stinks. See picture attached, the water that is on the street all day, the entire street stinks.</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>0.008429</td>
+<td>0.980050</td>
+<td>0.009402</td>
+<td>0.001563</td>
+<td>0.000270</td>
+<td>0.000287</td>
+<td>The car has been sitting in front of my house for two weeks and it looks like it’s abandon the car is beat up, it has 4 flat tires and doesn’t move.</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">137</td>
+<td>0.017101</td>
+<td>0.979958</td>
+<td>0.001696</td>
+<td>0.000763</td>
+<td>0.000214</td>
+<td>0.000269</td>
+<td>Constant presence of trash and cans at the intersection of N American and W Laurel. This is the eastern entrance to Liberty Lands that the NLNA does not maintain. Blocks intersection, making it dangerous for pedestrians and not passable for wheelchairs and strollers. NLNA/Liberty Lands refuses to address this.</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">308</td>
+<td>0.018758</td>
+<td>0.977491</td>
+<td>0.001754</td>
+<td>0.001429</td>
+<td>0.000242</td>
+<td>0.000325</td>
+<td>They are throwing debris in the back and it is dangerous since that is an escape route in case of fire.</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">438</td>
+<td>0.003735</td>
+<td>0.975286</td>
+<td>0.016483</td>
+<td>0.003576</td>
+<td>0.000306</td>
+<td>0.000613</td>
+<td>Clothes drying on car not healthy very nasty can hang clothesline in yard to dry clothes public housing residents</td>
+<td>anger</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">418</td>
+<td>0.010476</td>
+<td>0.968256</td>
+<td>0.009228</td>
+<td>0.010769</td>
+<td>0.000416</td>
+<td>0.000856</td>
+<td>Flashing on side of subsidized senior living facility - Birchwood at Grays Ferry - is detached and is going to fly off from the wind. \r\n\r\nNegligent Developer/Owner - Ingerman Senior Communties\r\n\r\nhttps://livebirchwood.com/communities/birchwood-at-grays-ferry/</td>
+<td>anger</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">112</td>
+<td>0.031159</td>
+<td>0.964427</td>
+<td>0.002860</td>
+<td>0.000946</td>
+<td>0.000323</td>
+<td>0.000285</td>
+<td>714 Bigler Street, Philadelphia is illegally renting individual rooms out to illegal immigrants. There has been nothing but fights and cops called to the property repeatedly. The home owner is ignoring all calls as both homeowners on the side of the property are sick of dealing with the police. Please have someone investigate this home.</td>
+<td>anger</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Fear</strong></p>
+<p>And the most fearful:</p>
+<div class="cell" data-tags="[]" data-execution_count="88">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>fearful_requests <span class="op">=</span> emotion.query(<span class="st">"fear &gt; 0.8"</span>).sort_values(<span class="st">"fear"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="89">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(fearful_requests)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="89">
+<pre><code>72</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="90">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>fearful_requests.head(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="90">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fear</th>
+<th data-quarto-table-cell-role="th">anger</th>
+<th data-quarto-table-cell-role="th">sadness</th>
+<th data-quarto-table-cell-role="th">joy</th>
+<th data-quarto-table-cell-role="th">surprise</th>
+<th data-quarto-table-cell-role="th">love</th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.991878</td>
+<td>0.004407</td>
+<td>0.002045</td>
+<td>0.000935</td>
+<td>0.000492</td>
+<td>0.000243</td>
+<td>I live across the street from the small row home that is inhabited by squatters who have propane tanks all over the living room that I can see as I walk by when they leave their door open. They are drug users so my biggest fear is that they fall asleep or like something on fire and they call an explosion. They also are soliciting sex for drugs out of the home and I have all of this on camera footage not the propane tanks but I can try to get pictures next time The door is open. My biggest fear is I have a teenage daughter and something is going to happen that causes me or my family harm.</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">290</td>
+<td>0.989706</td>
+<td>0.005689</td>
+<td>0.001554</td>
+<td>0.002028</td>
+<td>0.000826</td>
+<td>0.000196</td>
+<td>RE: A TRIPPING HAZARD!\r\n\r\nIN THE FRONT OF THE "SOUTH-SIDE ENTRANCE" OF THE "CITY HALL BUILDING," THIS DEVICE IS ONE OF THE "TWO DEVICES" THAT NEEDS TO BE EXAMINED AND STABILIZED THROUGH THE INCLUSION OF THE "NEEDED SCREWS!"\r\n\r\nIMPORTANT, THE TWO DEVICES (TWINS OR THE SAME TWO DEVICES) ARE, VERILY, TRIPPING HAZARDS TO THE MANY, UNAWARE PEDESTRIANS WHO ENTERS AND EXITS THE "SOUTH-SIDE ENTRANCE" OF THE CITY HALL BUILDING!\r\n\r\nNEVERTHELESS, HERE IS OF THE LOCATION OF "TWO UNSTABLE DEVICES" THAT ACTS AS DANGEROUS TRIPPING HAZARDS TO THE UNAWARE PEDESTRIANS:\r\n\r\nTHE INTERSECTION OF THE "BROAD STREET" AND "SOUTH PENN SQUARE" AND AT THE "SOUTH-SIDE ENTRANCE" OF THE "CITY HALL BUILDING!"\r\n\r\nTHANK YOU!</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.982022</td>
+<td>0.011605</td>
+<td>0.003893</td>
+<td>0.001234</td>
+<td>0.001005</td>
+<td>0.000241</td>
+<td>Signage on the verge of falling on pedestrians</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">222</td>
+<td>0.977184</td>
+<td>0.005688</td>
+<td>0.011581</td>
+<td>0.003288</td>
+<td>0.001900</td>
+<td>0.000358</td>
+<td>vehicle appears disabled park into the traffic lane</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">139</td>
+<td>0.975525</td>
+<td>0.016687</td>
+<td>0.003994</td>
+<td>0.001829</td>
+<td>0.001695</td>
+<td>0.000270</td>
+<td>this is blocking half for the roadway. it is on the 2700-2800 S 15th side of the address. it seems to be but automotive debris</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">51</td>
+<td>0.970517</td>
+<td>0.008657</td>
+<td>0.017859</td>
+<td>0.001462</td>
+<td>0.001081</td>
+<td>0.000423</td>
+<td>stickers are from 8 24 and the car is leaking fluids</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">99</td>
+<td>0.968525</td>
+<td>0.003400</td>
+<td>0.021638</td>
+<td>0.003013</td>
+<td>0.003016</td>
+<td>0.000408</td>
+<td>WRECKED DAMAGE Mercedes Benz CLA 250 was left by an unmarked TOW truck at 418 AM 7 MARCH 2025</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">336</td>
+<td>0.964785</td>
+<td>0.007167</td>
+<td>0.024020</td>
+<td>0.002058</td>
+<td>0.001604</td>
+<td>0.000367</td>
+<td>Older Model Cadillac Sedan broken down. All windows are out. Currently covered up with trash bags. Vehicle has body damage as well. Been parked here for about 5 days now. Appears unoperable.</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">194</td>
+<td>0.963108</td>
+<td>0.027566</td>
+<td>0.003542</td>
+<td>0.003374</td>
+<td>0.001815</td>
+<td>0.000594</td>
+<td>The sinkhole is about ten feet long and six inches deep and is forming in the parking lane in front of the residence.</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">54</td>
+<td>0.962627</td>
+<td>0.026125</td>
+<td>0.004515</td>
+<td>0.005033</td>
+<td>0.001267</td>
+<td>0.000433</td>
+<td>White Mercedes Benz. Blocking handicapped ramp on sidewalk. Trunk appears open. Has been there for 5 days.</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0.962614</td>
+<td>0.032127</td>
+<td>0.001547</td>
+<td>0.002203</td>
+<td>0.001172</td>
+<td>0.000338</td>
+<td>This property has caught fire sometime last June and was sealed up. Since then an unknown person or persons has taken off the boards and are now trying to live in this property. Can you please put a rush on boarding up this property</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">81</td>
+<td>0.960285</td>
+<td>0.005189</td>
+<td>0.030098</td>
+<td>0.001505</td>
+<td>0.002506</td>
+<td>0.000417</td>
+<td>Expired inspection,car hit from behind,missing driver’s door handle</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">310</td>
+<td>0.958842</td>
+<td>0.028020</td>
+<td>0.004497</td>
+<td>0.005560</td>
+<td>0.002333</td>
+<td>0.000749</td>
+<td>Northeast corner of intersection-stop sign is on ground. Many motorists running through intersection.</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">265</td>
+<td>0.958492</td>
+<td>0.028282</td>
+<td>0.007233</td>
+<td>0.004680</td>
+<td>0.000970</td>
+<td>0.000343</td>
+<td>Multiple car accident on this street and traffic sign in the island divide keeps getting knock down. The pole/sign has been run into twice while up and while it was down ran over 2 more times so far, the area is too dark and need more lighting or more visible and steady pole/signage. Maybe rumble streets or speed bump. Call me if need more input or questions on the issue</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25</td>
+<td>0.954997</td>
+<td>0.029162</td>
+<td>0.013140</td>
+<td>0.001434</td>
+<td>0.000961</td>
+<td>0.000305</td>
+<td>White van illegally parked near a STOP. Cannot see who is coming the other way. Vision is blocked.</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">417</td>
+<td>0.953195</td>
+<td>0.024342</td>
+<td>0.008085</td>
+<td>0.011639</td>
+<td>0.002109</td>
+<td>0.000631</td>
+<td>Large sinkhole developing on Green Lane near Northlight Center. Have seen water coming out.</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">407</td>
+<td>0.952839</td>
+<td>0.036604</td>
+<td>0.006276</td>
+<td>0.002778</td>
+<td>0.001136</td>
+<td>0.000367</td>
+<td>A utility pole has been lying on the street for several weeks, obstructing the width of the sidewalk and creating a trip hazard</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">131</td>
+<td>0.952442</td>
+<td>0.023429</td>
+<td>0.015413</td>
+<td>0.006637</td>
+<td>0.001557</td>
+<td>0.000523</td>
+<td>It has a flat and several parking tickets. It's been in this condition for several weeks.</td>
+<td>fear</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">315</td>
+<td>0.952069</td>
+<td>0.028964</td>
+<td>0.010509</td>
+<td>0.006375</td>
+<td>0.001648</td>
+<td>0.000434</td>
+<td>The car hasn’t moved in 5 days.</td>
+<td>fear</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">239</td>
+<td>0.944550</td>
+<td>0.019830</td>
+<td>0.030883</td>
+<td>0.002670</td>
+<td>0.001610</td>
+<td>0.000457</td>
+<td>Two flat tires inspection inspired 9 of 23 note left in vehicles stating battery is dead. vehicle has been sitting in the same location for a number of weeks now</td>
+<td>fear</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Takeaway:</strong></p>
+<p>Overall, the algorithm is doing a pretty good job picking up the emotion and sentiment in the requests.</p>
+<p>One potential use case for a model like this: <em>prioritizing responses</em>. For example:</p>
+<ul>
+<li>You might want to respond more quickly to those that are classified as the most fearful, given that those situations might be the most dangerous.</li>
+<li>Or, requests that are classified as the angriest might warrant a closer follow-up from a city representative, since many of these requests are likely repeated requests from frustrated residents.</li>
+</ul>
+<p>But, once again, we see the limitations of sentiment analysis as text with words like “thank you” and “please” get classified as positive (“joy”):</p>
+<div class="cell" data-tags="[]" data-execution_count="91">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>joyful_requests <span class="op">=</span> emotion.query(<span class="st">"joy &gt; 0.8"</span>).sort_values(<span class="st">"joy"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Not that many requests!</p>
+<div class="cell" data-tags="[]" data-execution_count="92">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(joyful_requests)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="92">
+<pre><code>20</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="93">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>joyful_requests.head(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="93">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">fear</th>
+<th data-quarto-table-cell-role="th">anger</th>
+<th data-quarto-table-cell-role="th">sadness</th>
+<th data-quarto-table-cell-role="th">joy</th>
+<th data-quarto-table-cell-role="th">surprise</th>
+<th data-quarto-table-cell-role="th">love</th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">352</td>
+<td>0.000289</td>
+<td>0.000148</td>
+<td>0.000248</td>
+<td>0.998845</td>
+<td>0.000165</td>
+<td>0.000305</td>
+<td>Street light been out for the 2 pass month now making it a concern for pedestrians walking at night to feel safe.</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">449</td>
+<td>0.000316</td>
+<td>0.000174</td>
+<td>0.000263</td>
+<td>0.998784</td>
+<td>0.000181</td>
+<td>0.000282</td>
+<td>The city needs to have the mayor coMe to see 7 trucks in this lot and nowhere to park people hide with the missing children people should feel safe. Tax Money and police need to be present.start ticketing but after all the crime theY need to be moved.Water department can't finish because of the blocking and activity</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">276</td>
+<td>0.000094</td>
+<td>0.000178</td>
+<td>0.000297</td>
+<td>0.997809</td>
+<td>0.000137</td>
+<td>0.001485</td>
+<td>The street light turns on and off all night, and the strength of the light dims and brightens as well. Would appreciate a fix, thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">70</td>
+<td>0.000986</td>
+<td>0.001315</td>
+<td>0.000836</td>
+<td>0.995737</td>
+<td>0.000241</td>
+<td>0.000884</td>
+<td>Stop signs are needed at this intersection. To ESTABLISH THE RIGHT OF WAY. At the current time there is nothing to help drivers and pedestrians at an intersection decide who has the right-of-way. "Safety Issue "A stop sign is a traffic sign designed to notify drivers that they must come to a complete stop and make sure the intersection is safely clear of vehicles and pedestrians before continuing past the sign. There is a church and school at this location please help. thank you.</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">250</td>
+<td>0.000496</td>
+<td>0.002613</td>
+<td>0.001341</td>
+<td>0.989387</td>
+<td>0.000471</td>
+<td>0.005691</td>
+<td>Graffiti on pole. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">252</td>
+<td>0.000496</td>
+<td>0.002613</td>
+<td>0.001341</td>
+<td>0.989387</td>
+<td>0.000471</td>
+<td>0.005691</td>
+<td>Graffiti on pole. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">246</td>
+<td>0.000496</td>
+<td>0.002613</td>
+<td>0.001341</td>
+<td>0.989387</td>
+<td>0.000471</td>
+<td>0.005691</td>
+<td>Graffiti on pole. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">253</td>
+<td>0.000729</td>
+<td>0.003696</td>
+<td>0.001794</td>
+<td>0.988631</td>
+<td>0.000529</td>
+<td>0.004622</td>
+<td>Graffiti on sign. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">241</td>
+<td>0.000729</td>
+<td>0.003696</td>
+<td>0.001794</td>
+<td>0.988631</td>
+<td>0.000529</td>
+<td>0.004622</td>
+<td>Graffiti on sign. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">404</td>
+<td>0.000380</td>
+<td>0.002572</td>
+<td>0.001490</td>
+<td>0.986838</td>
+<td>0.000328</td>
+<td>0.008391</td>
+<td>There's a tag in black spray paint on the E. Juniata Street (2600 block) side of 4204 E. Thompson ... It's by the NE corner of Almond and Juniata.\r\nThanks.</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">260</td>
+<td>0.001029</td>
+<td>0.005646</td>
+<td>0.002130</td>
+<td>0.985643</td>
+<td>0.000619</td>
+<td>0.004932</td>
+<td>Graffiti on parking sign pole. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">98</td>
+<td>0.001029</td>
+<td>0.005646</td>
+<td>0.002130</td>
+<td>0.985643</td>
+<td>0.000619</td>
+<td>0.004932</td>
+<td>Graffiti on parking sign pole. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">71</td>
+<td>0.001029</td>
+<td>0.005646</td>
+<td>0.002130</td>
+<td>0.985643</td>
+<td>0.000619</td>
+<td>0.004932</td>
+<td>Graffiti on parking sign pole. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">248</td>
+<td>0.001122</td>
+<td>0.007304</td>
+<td>0.002701</td>
+<td>0.981977</td>
+<td>0.000699</td>
+<td>0.006197</td>
+<td>Graffiti on control box. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">254</td>
+<td>0.001122</td>
+<td>0.007304</td>
+<td>0.002701</td>
+<td>0.981977</td>
+<td>0.000699</td>
+<td>0.006197</td>
+<td>Graffiti on control box. Please and thank you!</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">40</td>
+<td>0.009750</td>
+<td>0.046768</td>
+<td>0.006436</td>
+<td>0.933194</td>
+<td>0.001199</td>
+<td>0.002652</td>
+<td>there are active tenants and no rental license.</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">292</td>
+<td>0.062591</td>
+<td>0.011411</td>
+<td>0.017751</td>
+<td>0.904143</td>
+<td>0.001639</td>
+<td>0.002465</td>
+<td>corner store no dumpster every week they put out the trash it gets all over the neighborhood piles of trash all over the street and the corner this is a business they shall have a dumpster to collect the trash I believe they need two of them with all the trash best flooring through the neighborhood even though so I'm dreaming on the corner</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">385</td>
+<td>0.028773</td>
+<td>0.063197</td>
+<td>0.024918</td>
+<td>0.865608</td>
+<td>0.005900</td>
+<td>0.011604</td>
+<td>please see picture</td>
+<td>joy</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">199</td>
+<td>0.008847</td>
+<td>0.117338</td>
+<td>0.028098</td>
+<td>0.841912</td>
+<td>0.001248</td>
+<td>0.002556</td>
+<td>RE: A "STOP SIGN FACING IN THE WRONG DIRECTION!"\r\n\r\nAT THE "NORTH-WEST CORNER" OF THE INTERSECTION OF THE "RACE STREET AND 64TH STREET," THERE IS A "STOP SIGN" THAT NEEDS TO BE "REPOSITIONED" AS IT IS FACING IN THE "WRONG DIRECTION!"\r\n\r\nIMPORTANT, THIS MATTER IS VITAL AND NEEDS TO BE "FIXED," ASAP!\r\n\r\nTHANK YOU!</td>
+<td>joy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">255</td>
+<td>0.006866</td>
+<td>0.082351</td>
+<td>0.081242</td>
+<td>0.824580</td>
+<td>0.001603</td>
+<td>0.003358</td>
+<td>4 chairs and a rusted bucket. The keep dumping at this site. We work really hard to keep the neighborhood clean. Can there please be cameras installed?</td>
+<td>joy</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><em>Sentiment analysis</em> – a helpful, but imperfect analysis tool!</p>
+</section>
+</section>
+<section id="thats-it" class="level2">
+<h2 class="anchored" data-anchor-id="thats-it">That’s it!</h2>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
