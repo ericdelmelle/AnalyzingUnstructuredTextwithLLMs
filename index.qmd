@@ -61,6 +61,7 @@ ul ul {
 
 -   10-12: room G.1.56
 -   13-15: room i.1.03
+-   [PRESENTATION LINK](https://ericdelmelle.github.io/AnalyzingUnstructuredTextwithLLMs/)
 
 ![](imgs/program_updated.png){fig-align="center"}
 
@@ -79,6 +80,8 @@ ul ul {
 ## [**GitHub**]{style="color: teal;"}
 
 -   Clone the repository to your local machine.
+-   [GITHUB link](https://github.com/ericdelmelle/AnalyzingUnstructuredTextwithLLMs/)
+
 
 ------------------------------------------------------------------------
 
