@@ -1,0 +1,475 @@
+---
+title: "Analyzing Unstructured Text with Large Language Models"
+authors:
+  - id: ericdelmelle 
+    name:
+      given: Eric
+      family: Delmelle
+      literal: Eric Delmelle (VUB, Lehigh University)
+    url: https://github.com/ericdelmelle
+    orcid: 0000-0002-5117-2238
+    attributes:
+      equal-contributor: true
+date: "2025-03-11"
+date-format: long
+format: revealjs
+---
+
+
+```{=html}
+<style>
+.circle {
+  background-color: #FFCCCB; /* Light red background */
+  border: 2px solid teal; /* Teal border */
+  border-radius: 50%; /* Makes the circle round */
+  color: teal; /* Teal text color */
+  width: 75px; /* Circle diameter */
+  height: 75px; /* Circle diameter */
+  display: inline-block;
+  text-align: center;
+  line-height: 75px; /* Match the height to center the text vertically */
+  vertical-align: middle; /* Aligns the circle vertically with adjacent text */
+  margin-right: 5px;
+}
+</style>
+```
+```{=html}
+<style>
+.highlight-box {
+  background-color: yellow;
+  padding: 10px;
+  border-radius: 5px;
+}
+</style>
+```
+```{=html}
+<style>
+ul {
+  font-size: 85%;
+}
+
+ul ul {
+  font-size: 75%;
+}
+</style>
+```
+
+
+![](imgs/chatGPT.jpg){fig-align="center"}
+
+# [**Program Overview**]{style="color: blue;"}
+
+-   10-12: room G.1.56
+-   13-15: room i.1.03
+
+![](imgs/program.png){fig-align="center"}
+
+
+
+## [1]{.circle} [**Rapid intro**]{style="color: red;"}
+
+-   [mentimeter](https://www.menti.com/aldrnzyz2twd)
+
+![](imgs/mentimeter_qr_code-3.png){fig-align="center"}
+
+-   [google trends](https://trends.google.com/trends/)
+
+------------------------------------------------------------------------
+
+## [**GitHub**]{style="color: teal;"}
+
+-   Clone the repository to your local machine.
+
+------------------------------------------------------------------------
+
+## [2]{.circle} [**Webscraping and APIs**]{style="color: red;"}
+-   **Webscraping**: Using software to gather and extract data/content from websites
+
+![](imgs/scraping-craigslist.jpeg){fig-align="center" width="627"}
+
+-   Source: [Geoff Boeing](https://geoffboeing.com/2016/08/craigslist-rental-housing-insights/)    
+
+
+
+------------------------------------------------------------------------
+
+
+## [2]{.circle} [**Webscraping and APIs**]{style="color: red;"}
+- **What is an Application Programming Interface?**
+  -   (noun): A particular set of rules and specifications that software programs can follow to communicate with each other and exchange data.
+
+![](imgs/api-process.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+## [2]{.circle} [**Webscraping and APIs**]{style="color: red;"}
+
+There are some important legal issues
+
+  -   Copyright infringement: pictures, rental listing text
+
+**Terms of Use violations**
+    
+  - <span style="color: brown;">**Unauthorized**</span>: Is scraping prohibited in the website’s terms of use?
+    
+  - <span style="color: brown;">**Intentional**</span>: Was the person aware of the terms? Did they check an “I agree to these terms” box?
+    
+  - <span style="color: brown;">**Causes damage**</span>: Did the scraping overload the website, blocking user access?
+
+
+------------------------------------------------------------------------
+
+## [**Earthquake feeds**]{style="color: teal;"}
+-   **Automated data feeds**: The simplest form of API is when data providers maintain data files via a URL that are automatically updated with new data over time. 
+-   [**EarthQuakes (USGS)**]{.highlight-box}  &harr; API for near-real-time earthquakes.
+ 
+-   [http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson](http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson)
+
+- Note the [**JSON response**]{.highlight-box}     
+    -     {"type":"FeatureCollection","metadata":{"generated":1741603385000,"url":"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson","title":"USGS Magnitude 4.5+ Earthquakes, Past Day","status":200,"api":"1.14.1","count":11},"features":[{"type":"Feature","properties":{"mag":4.8,"place":"31 km ENE of Luganville, Vanuatu","time":1741582256264,"updated":1741583247040,"tz":null,"url":"https://earthquake.usgs.gov/......
+ 
+------------------------------------------------------------------------
+
+## [**Air quality data**]{style="color: teal;"}
+-   Many sensors containing information on weather characteristics and air quality. 
+-   Here we are interested to use a library called `airpyllution` and `openweathermap`
+-   <span style="color: brown;">**Let's do some exercises**</span> <span style="color: blue;">*mappingAirQualityWithAPI*</span>
+
+![](imgs/pollution.png){fig-align="center" width="327"}
+
+------------------------------------------------------------------------
+
+
+## [3]{.circle} [**Useful python libraries**]{style="color: red;"}
+
+- The `requests` library is a simple and elegant HTTP library for Python.
+
+Installation
+```bash
+pip install requests
+```
+```python
+import requests
+
+response = requests.get("https://api.github.com")
+print(response.status_code)  # Prints HTTP status code
+print(response.json())  # Prints JSON response if available
+```
+
+
+- Key features: 
+  -    **Sending HTTP Requests:** `GET`, `POST`, `PUT`, `DELETE`
+  -    **Handling Response Data:** JSON parsing, content retrieval
+  -    **Custom Headers & Parameters:** Easily send custom headers and parameters
+  
+
+
+------------------------------------------------------------------------
+  
+## [**JavaScript Object Notation**]{style="color: teal;"}
+
+-   JSON is the standard format for API responses.
+-   Easily parsed and manipulated in Python.
+-   <span style="color: brown;">**Let's do an example**</span> <span style="color: blue;">*gitHubAccount*</span>
+
+```python
+import requests
+
+url = "https://api.github.com/users/octocat"
+response = requests.get(url)
+data = response.json()
+
+print("User:", data["login"])
+print("ID:", data["id"])
+print("Profile URL:", data["html_url"])
+```
+
+- **Explanation**
+  -   Sends a `GET` request to GitHub's API for user data.
+  -   Converts the response into a JSON dictionary.
+  -   Prints the username, ID, and profile URL.
+
+
+------------------------------------------------------------------------
+
+## [**Other examples**]{style="color: teal;"}
+
+- [**statbel**](https://bestat.statbel.fgov.be/bestat/api/views/)  
+
+- [**open Brussels**](https://opendata.brussels.be/)  
+
+![](imgs/openBrussels.png){fig-align="center" width="527"}
+
+------------------------------------------------------------------------
+
+## [4]{.circle} [**Beautiful Soup**]{style="color: red;"}
+
+- Parsing HTML Easily
+- Extracting Titles from a Webpage
+
+- <span style="color: brown;">**See example**</span> <span style="color: blue;">*beautifulSoup*</span> for restaurants in Philadelphia.
+
+- [food inspection](https://data.inquirer.com/inspections/)
+
+```python
+import requests
+from bs4 import BeautifulSoup
+
+# Fetch HTML content
+url = "https://example.com"
+response = requests.get(url)
+
+# Parse HTML with BeautifulSoup
+soup = BeautifulSoup(response.content, 'html.parser')
+
+# Extract all h1 titles
+titles = [title.text for title in soup.find_all('h1')]
+print(titles)
+```
+------------------------------------------------------------------------
+
+## [5]{.circle} [**Other examples of API**]{style="color: red;"}
+
+-   <span style="color: brown;">**See example**</span> <span style="color: blue;">*FourSquareAPI*</span> of venues around the VUB.
+
+![](imgs/foursquare.png){fig-align="center" width="427"}
+
+------------------------------------------------------------------------
+
+## [6]{.circle} [**LUNCH**]{style="color: red;"}
+
+
+
+# [**Analysis of Text Data**]{style="color: blue;"}
+
+
+
+------------------------------------------------------------------------
+
+## [7]{.circle} [**What are semi-tructured data?**]{style="color: red;"}
+
+- **Definition:** Semi-structured data is a type of data that does not reside in a traditional relational database but still has some structure, such as metadata or tags.
+- **Examples:** JSON, XML, HTML, emails, and web-scraped data.
+- **Example of Unstructured Text Before Processing:**
+```text
+Review ID: 12345
+User: Alex B.
+Date: March 5, 2024
+Review: "Great coffee place! Loved the ambiance. The espresso was strong, just the way I like it. Highly recommend!"
+
+Review ID: 12346
+User: Maria P.
+Date: March 6, 2024
+Review: "Service was slow and the pastries were stale. Won't visit again."
+```
+- Notice how the data lacks consistent formatting, requiring processing before it can be analyzed.
+
+---
+
+### [**Data Cleaning Techniques**]{style="color: red;"}
+
+- **Column Standardization:**
+  - Standardizing column names and ensuring consistent naming conventions.
+- **Handling Missing Data:**
+  - Filling missing values or removing incomplete records.
+
+#### **Example of Cleaning Google Reviews Data:**
+```python
+import pandas as pd
+
+# Sample unstructured data
+reviews = [
+    {"review_id": 12345, "user": "Alex B.", "review": "Great coffee place! Loved the ambiance."},
+    {"review_id": 12346, "user": "Maria P.", "review": None},
+    {"review_id": 12347, "user": "John D.", "review": "Amazing espresso!"}
+]
+
+# Convert to DataFrame
+df = pd.DataFrame(reviews)
+
+# Handle missing data
+df['review'].fillna("No review provided", inplace=True)
+print(df)
+```
+
+------------------------------------------------------------------------
+
+## [8]{.circle} [**Text Mining Fundamentals**]{style="color: red;"}
+
+- **Definition:** Text mining involves extracting meaningful information from unstructured text data.
+- **Applications:** Sentiment analysis, topic modeling, named entity recognition.
+
+- **Natural Language Processing** (NLP) enables machines to understand, interpret, and generate text-based data in meaningful ways.
+
+
+### Techniques
+
+- **Tokenization:** Splitting text into words or phrases.
+- **Stop-word removal:** Removing common words that add little meaning (e.g., "the," "is").
+- **Stemming and Lemmatization:** Reducing words to their base form (e.g., "running" → "run").
+
+---
+
+#### **Example: Tokenizing and Removing Stopwords:**
+```python
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+
+nltk.download('punkt')
+nltk.download('stopwords')
+
+text = "The coffee shop was absolutely amazing!"
+tokens = word_tokenize(text.lower())
+filtered_tokens = [word for word in tokens if word not in stopwords.words('english')]
+print(filtered_tokens)
+# Output: ['coffee', 'shop', 'absolutely', 'amazing', '!']
+```
+---
+
+### [**Visualizing Text Data**]{style="color: red;"}
+
+- **Word Clouds:** Graphical representations of frequent words.
+- **Frequency Distributions:** Analyzing the most commonly used words in a dataset.
+
+#### **Example: Generating a Word Cloud**
+```python
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+text = "Great coffee place! Loved the ambiance. Amazing espresso!"
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate(text)
+
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+```
+
+-   <span style="color: brown;">**See example**</span> <span style="color: blue;">*Tagcloud_wikipedia.ipynb*</span> to generate tag clouds from wikipedia pages!
+
+
+------------------------------------------------------------------------
+
+## [9]{.circle} [**Sentiment Analysis with Transformer Models**]{style="color: red;"}
+
+- **Definition:** Sentiment analysis, also known as opinion mining, is the process of determining the emotional tone behind a body of text.
+- **Applications:**
+  - Social media monitoring (e.g., analyzing tweets about a brand).
+  - Customer feedback analysis (e.g., extracting sentiment from online reviews).
+  - Public health (e.g., analyzing mental health trends based on public forum posts).
+  - Political sentiment tracking (e.g., understanding public opinion on policies or politicians).
+
+#### **Example of Sentiment Labeled Data:**
+```text
+"The coffee was amazing and the staff was super friendly!" → Positive
+"The service was slow, and my order was wrong." → Negative
+"The place was okay, but nothing special." → Neutral
+```
+
+------------------------------------------------------------------------
+
+## [9]{.circle} [**Sentiment Analysis with Transformer Models**]{style="color: red;"}
+  
+- **Introduction to RoBERTa:**
+  - RoBERTa (Robustly Optimized BERT Pretraining Approach) is an improvement over BERT, fine-tuned for better performance on sentiment and emotion classification.
+- Unlike traditional models, it **removes Next Sentence Prediction** and dynamically changes the masking pattern, leading to **higher accuracy on text classification tasks**.
+
+- **How Attention Mechanisms Work:**
+  - Unlike traditional models, transformers use **self-attention** to process words **in context**.
+- Example: The word "bank" in **"river bank"** vs **"financial bank"** has different meanings, and transformers understand this difference better.
+
+------------------------------------------------------------------------
+
+### [**Example: How a Transformer Understands Sentiment**]{style="color: red;"}
+```text
+"I loved the product but the delivery was terrible."
+```
+- A simple model might classify this as **neutral**, since it has mixed emotions.
+- A transformer like **RoBERTa** understands the **nuance** (positive sentiment about product, negative about delivery) and can **assign multiple scores**.
+
+------------------------------------------------------------------------
+
+### [**Using Hugging Face to Analyze Sentiment**]{style="color: red;"}
+-   <span style="color: brown;">**See example**</span> <span style="color: blue;">*demoPipeline.ipynb*</span> 
+  ```python
+from transformers import pipeline
+
+# Load sentiment analysis model
+sentiment_pipeline = pipeline("sentiment-analysis")
+
+# Analyze sample text
+text = "The atmosphere at the cafe was lovely, but the service was slow."
+result = sentiment_pipeline(text)
+print(result)
+```
+-   **Expected Output:**
+  ```json
+[{'label': 'NEGATIVE', 'score': 0.87}]
+```
+  - The model **assigns a probability score** to its classification.
+  - Fine-tuned versions of RoBERTa can assign **multidimensional sentiment scores** (e.g., rating product vs. service separately).
+
+------------------------------------------------------------------------
+
+
+### [**What about language limitations?**]{style="color: red;"}
+
+- Model are generally trained on English reviews (e.g. reddit)
+- How do you translate in English '...le parc est anime...' or from Dutch '...het park is levendig...'?
+
+  -   "The park is lively." (captures the positive and vibrant atmosphere)
+  -   "The park is bustling." (emphasizes activity and movement, often with many people)
+  -   "The park is busy." (correct but might have a slightly negative connotation in English, implying it is crowded)
+  -   "The park is full of life." (more expressive and poetic)
+- [distilbert](https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english)
+- [roberta-base-go_emotions](https://huggingface.co/SamLowe/roberta-base-go_emotions)
+
+------------------------------------------------------------------------
+
+
+
+
+## Hands-on: Sentiment Analysis of 311 Requests
+
+
+
+
+### Visualizing Emotional Data
+
+- Spatial visualization techniques
+
+### Content Analysis of Emotional Themes
+
+- Frequent words
+- Thematic analysis
+
+## Conclusion & Practical Implications
+
+### Summary of Key Learnings
+
+### Implications for Urban Planning
+
+- Actionable insights
+- Policy and management implications
+
+### Real-world Applications
+
+- Public health and urban planning
+
+### Limitations and Ethical Considerations
+
+- Data privacy concerns
+- Biases in data
+
+### Future Research Directions
+
+- Advancing NLP applications
+- Geospatial analysis enhancements
+
+### Q&A
+
+- Interactive session
+- Final thoughts and discussion
+
+

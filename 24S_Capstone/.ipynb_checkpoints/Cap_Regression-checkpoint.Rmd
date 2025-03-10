@@ -1,0 +1,766 @@
+---
+title: "Capstone_Regression"
+author: "Xiayuanshan Gao"
+date: "2024-06-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(sf)
+library(RSocrata)
+library(viridis)
+library(spatstat)
+library(raster)
+library(spdep)
+library(FNN)
+library(grid)
+library(gridExtra)
+library(knitr)
+library(kableExtra)
+library(tidycensus)
+library(lubridate)
+library(extrafont) 
+library(ggcorrplot)
+library(corrr) 
+```
+
+```{r}
+loadfonts(device = "win") 
+```
+
+
+```{r cars}
+rev <- read.csv('output_files/PrepforRegression.cvs')
+```
+
+
+
+```{r pressure, echo=FALSE}
+variables <- c("B01001_001E",
+  "B01001_002E",
+  "B01001_026E",
+   "B01001_007E",
+  "B01001_012E",
+   "B01001_016E",
+ "B01001_020E","B02001_002E","B02001_003E", "B03001_003E", "B02001_004E", "B19001_002E","B19001_003E", "B19001_006E", "B19001_008E",
+"B19001_010E", "B19001_012E","B07001_001E","B07001_017E","B07001_033E",
+"B07001_049E",
+"B07001_065E",
+  "B15001_002E",
+ "B15001_003E",
+"B15001_005E",
+"B15001_009E",
+"B15001_010E",
+   "B25001_001E",
+  "B06012_002E",
+  "B25002_003E",
+"B25006_002E",
+  "B25006_001E",
+  "B19013_001E",
+"B25077_001E",
+"B25031_001",
+"B08133_001",
+"B19013_001E"
+)
+
+acs_2023 <- get_acs(
+  geography = "block group",
+  variables = variables,
+  year = 2015,
+  state = "PA",
+  county = "Philadelphia",
+  geometry = TRUE,
+  survey = "acs5",
+  output = "wide"
+)
+```
+
+```{r}
+acs_2023 <- acs_2023 %>%
+  rename(
+    totalPop = B01001_001E,
+    male = B01001_002E,
+    female = B01001_026E,
+    age_18_24 = B01001_007E,
+    age_25_44 = B01001_012E,
+    age_45_64 = B01001_016E,
+    age_65plus = B01001_020E,
+    white = B02001_002E,
+    popblack = B02001_003E,
+    latino = B03001_003E,
+    other_race = B02001_004E,
+    income_less_20k = B19001_002E,
+    income_20k_40k = B19001_003E,
+    income_40k_60k = B19001_006E,
+    income_60k_80k = B19001_008E,
+    income_80k_100k = B19001_010E,
+    income_more_100k = B19001_012E,
+    migration_total = B07001_001E,
+    migration_within_county = B07001_017E,
+    migration_different_county_same_state = B07001_033E,
+    migration_different_state = B07001_049E,
+    migration_from_abroad = B07001_065E,
+    edu_less_high_school = B15001_002E,
+    edu_high_school_grad = B15001_003E,
+    edu_some_college = B15001_005E,
+    edu_bachelors = B15001_009E,
+    edu_grad_professional = B15001_010E,
+    total_housing_units = B25001_001E,
+    total_poverty = B06012_002E,
+    vacant_units = B25002_003E,
+    white_houseOwner = B25006_002E,
+    total_occupied_units = B25006_001E,
+    median_HH_income = B19013_001E,
+    houseprice = B25077_001E,
+    rent = B25031_001E,
+    travetimetowork = B08133_001E
+  ) %>%
+  #select(-starts_with("B"),-NAME) %>%
+  mutate(
+    WhiteHOrate = white_houseOwner / total_occupied_units,
+    pctBachelors = ifelse(totalPop > 0, (edu_bachelors + edu_grad_professional) / totalPop, 0),
+    pctPoverty = ifelse(totalPop > 0, total_poverty / totalPop, 0),
+    pctWhitePop = ifelse(totalPop > 0, white / totalPop, 0),
+    pctLatinoPop = ifelse(totalPop > 0, latino / totalPop, 0),
+    pctBlackPop = ifelse(totalPop > 0, popblack / totalPop, 0),
+    pctMigration = ifelse(totalPop > 0, migration_total / totalPop, 0),
+    pctForeignMig = ifelse(totalPop > 0, migration_from_abroad / totalPop, 0),
+    pct2540 = ifelse(totalPop > 0,  age_25_44 / totalPop, 0),
+    landArea = st_area(geometry), 
+    popDensity = totalPop / as.numeric(landArea)
+  )
+```
+
+```{r}
+
+rev$time <- as.POSIXct(rev$time)
+rev_2023 <- rev %>% 
+  filter(format(time, "%Y") == "2023"|format(time, "%Y") == "2024")
+```
+
+```{r}
+park_rev <- rev_2023 %>%
+  group_by(ParkName) %>%
+  summarize(
+    avg_sentiment = sum(sentiment, na.rm = TRUE) / n(),
+    inspirationPct = sum(new_emotion == "Inspiration", na.rm = TRUE) / n(),
+    relaxationPct = sum(new_emotion == "Relaxation", na.rm = TRUE) / n(),
+    engagementPct = sum(new_emotion == "Engagement", na.rm = TRUE) / n(),
+    discoveryPct = sum(new_emotion == "Discovery", na.rm = TRUE) / n(),
+    sorrowPct = sum(new_emotion == "Sorrow", na.rm = TRUE) / n(),
+    FAPct = sum(new_emotion == "Frustration & Annoyance", na.rm = TRUE) / n(),
+    Lat = first(Lat),  
+    Long = first(Long) 
+  )
+```
+
+```{r}
+park_rev <- park_rev %>%
+  rowwise() %>%
+  mutate(geometry = st_sfc(st_point(c(Long, Lat)), crs = 4326)) %>%
+  ungroup() %>%
+  st_sf() 
+acs_2023 <- st_as_sf(acs_2023, crs = 4326)
+```
+
+
+
+```{r fig.height=8, fig.width=8}
+ggplot() +
+  geom_sf(data = acs_2023, fill = NA, color = "grey") +  
+  geom_point(data = park_rev, aes(x = Long, y = Lat, color = avg_sentiment), 
+             alpha = 0.75,
+             size = 3)+
+  scale_color_gradientn(colors = RColorBrewer::brewer.pal(11, "RdBu"),
+                        limits = c(min(park_rev$avg_sentiment, na.rm = TRUE), 
+                                   max(park_rev$avg_sentiment, na.rm = TRUE)),
+                        oob = scales::squish, 
+                       name = "Average Sentiment") +
+  labs(title = "Average Park Sentiment in 2023 & 2024") +
+  coord_sf() +  # Use coordinate system of the sf object
+  theme_void()+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r fig.height=8, fig.width=8}
+p_inspiration <- ggplot(data = park_rev) +
+  geom_sf(data = acs_2023, fill = NA, color = "grey") +  # City boundaries
+  geom_point(data = park_rev, aes(x = Long, y = Lat, color = inspirationPct), 
+             alpha = 0.75,
+             size = 3) +
+  scale_color_gradient(low = "white", high = "#E2A55E", name = "Inspiration %") +
+  labs(title = "Inspiration Percebtage in 2023 & 2024") +
+  coord_sf() +  # Use coordinate system of the sf object
+  theme_void() +
+  theme(legend.position = "right",
+        plot.title = element_text(hjust = 0.5))
+
+# Print the Inspiration plot
+print(p_inspiration)
+
+# If you need to save the plot to a file
+#ggsave("emotion_plots_grid.png", plot_grid, width = 20, height = 12, units = "in")
+```
+
+```{r fig.height=8, fig.width=8}
+p_relaxation <- ggplot(data = park_rev) +
+  geom_sf(data = acs_2023, fill = NA, color = "grey") +  # City boundaries
+  geom_point(data = park_rev, aes(x = Long, y = Lat, color = relaxationPct), 
+             alpha = 0.75,
+             size = 3) +
+  scale_color_gradient(low = "white", high = "#E5C5BD", name = "Relaxation %") +
+  labs(title = "Relaxation Percebtage in 2023 & 2024") +
+  coord_sf() +  # Use coordinate system of the sf object
+  theme_void() +
+  theme(legend.position = "right",
+        plot.title = element_text(hjust = 0.5))
+
+# Print the Inspiration plot
+print(p_relaxation)
+```
+
+
+
+```{r fig.height=8, fig.width=8}
+
+p_FA<- ggplot(data = park_rev) +
+  geom_sf(data = acs_2023, fill = NA, color = "grey") +  # City boundaries
+  geom_point(data = park_rev, aes(x = Long, y = Lat, color = FAPct), 
+             alpha = 0.75,
+             size = 3) +
+  scale_color_gradient(low = "white", high = "#96A9A9", name = "Frustration & Annoyance %") +
+  labs(title = "Frustration & Annoyance Percebtage in 2023 & 2024") +
+  coord_sf() +  # Use coordinate system of the sf object
+  theme_void() +
+  theme(legend.position = "right",
+        plot.title = element_text(hjust = 0.5))
+
+# Print the Inspiration plot
+print(p_FA)
+```
+
+
+
+
+```{r fig.height=8, fig.width=8}
+p_engagement<- ggplot(data = park_rev) +
+  geom_sf(data = acs_2023, fill = NA, color = "grey") +  # City boundaries
+  geom_point(data = park_rev, aes(x = Long, y = Lat, color = engagementPct), 
+             alpha = 0.75,
+             size = 3) +
+  scale_color_gradient(low = "white", high = "#B4BFC5", name = "Engagement %") +
+  labs(title = "Engagement Percebtage in 2023 & 2024") +
+  coord_sf() +  # Use coordinate system of the sf object
+  theme_void() +
+  theme(legend.position = "right",
+        plot.title = element_text(hjust = 0.5))
+
+# Print the Inspiration plot
+print(p_engagement)
+```
+
+```{r fig.height=8, fig.width=8}
+
+p_discovery<- ggplot(data = park_rev) +
+  geom_sf(data = acs_2023, fill = NA, color = "grey") +  # City boundaries
+  geom_point(data = park_rev, aes(x = Long, y = Lat, color = discoveryPct), 
+             alpha = 0.75,
+             size = 3) +
+  scale_color_gradient(low = "white", high = "#CF7041", name = "Discovery %") +
+  labs(title = "Discovery Percentage in 2023 & 2024") +
+  coord_sf() +  # Use coordinate system of the sf object
+  theme_void() +
+  theme(legend.position = "right",
+        plot.title = element_text(hjust = 0.5))
+
+# Print the Inspiration plot
+print(p_discovery)
+```
+
+```{r fig.height=8, fig.width=8}
+p_sorrow<- ggplot(data = park_rev) +
+  geom_sf(data = acs_2023, fill = NA, color = "grey") +  # City boundaries
+  geom_point(data = park_rev, aes(x = Long, y = Lat, color = sorrowPct), 
+             alpha = 0.75,
+             size = 3) +
+  scale_color_gradient(low = "white", high = "#5E718B", name = "Sorrow %") +
+  labs(title = "Sorrow Percentage in 2023 & 2024") +
+  coord_sf() +  # Use coordinate system of the sf object
+  theme_void() +
+  theme(legend.position = "right",
+        plot.title = element_text(hjust = 0.5))
+
+# Print the Inspiration plot
+print(p_sorrow)
+```
+
+```{r}
+crime23 <- read.csv('incidents_part1_part2.csv')
+
+crime23 <- crime23[!is.na(crime23$point_x) & !is.na(crime23$point_y), ]
+
+crime23_sf <- st_as_sf(crime23, coords = c("point_x", "point_y"), crs = 4326)
+```
+
+```{r}
+crime23_sf  <- st_transform(crime23_sf , st_crs(park_rev))
+
+# Create a buffer around each park point (half mile ~ 804.7 meters, adjust for CRS if necessary)
+park_rev_buffered <- st_buffer(park_rev, dist = 804.7)  # adjust distance in meters if CRS is not in meters
+
+# Perform spatial join to count trees within each buffer
+park_crime23  <- st_join(park_rev_buffered, crime23_sf , join = st_intersects) %>%
+  group_by(ParkName) %>%
+  summarize(crime23_count = n(), .groups = 'drop')
+
+
+park_rev <- st_join(park_rev, park_crime23 , join = st_intersects)
+```
+
+```{r}
+#Get Data on trees in Philadelphia
+trees <- st_read('https://opendata.arcgis.com/api/v3/datasets/5abe042f2927486891c049cf064338cb_0/downloads/data?format=geojson&spatialRefId=4326&where=1%3D1')%>%
+  st_transform('EPSG:4326')
+
+```
+```{r}
+trees <- st_transform(trees, st_crs(park_rev))
+
+# Create a buffer around each park point (half mile ~ 804.7 meters, adjust for CRS if necessary)
+park_rev_buffered <- st_buffer(park_rev, dist = 804.7)  # adjust distance in meters if CRS is not in meters
+
+# Perform spatial join to count trees within each buffer
+park_trees <- st_join(park_rev_buffered, trees, join = st_intersects) %>%
+  group_by(ParkName) %>%
+  summarize(tree_count = n(), .groups = 'drop')
+
+
+park_rev <- st_join(park_rev, park_trees, join = st_intersects)
+```
+
+
+```{r public art location}
+pubArt <- st_read('https://phl.carto.com/api/v2/sql?filename=percent_for_art_public&format=geojson&skipfields=cartodb_id&q=SELECT+*+FROM+percent_for_art_public')%>%
+  st_transform('EPSG:4326')
+
+park_rev <- st_make_valid(park_rev)
+pubArt <- st_make_valid(pubArt)
+
+# distance to the closest public art
+art_nearest_fts <- st_nearest_feature(park_rev,pubArt)
+
+park_rev$art_distance <- as.double(st_distance(park_rev,pubArt[art_nearest_fts,], by_element=TRUE))
+```
+
+```{r school}
+school <- st_read('https://opendata.arcgis.com/datasets/d46a7e59e2c246c891fbee778759717e_0.geojson') %>% st_transform('EPSG:4326')
+
+# distance to the closest school
+school <- st_make_valid(school)
+
+# distance to the closest public art
+school_nearest_fts <- st_nearest_feature(park_rev,school)
+
+park_rev$school_distance <- as.double(st_distance(park_rev,school[school_nearest_fts,], by_element=TRUE))
+```
+
+
+```{r bike net}
+bikeNet <- st_read('https://opendata.arcgis.com/datasets/b5f660b9f0f44ced915995b6d49f6385_0.geojson') %>% st_transform('EPSG:4326')
+
+# shortest distance to the closest bikenet
+bikeNet <- st_make_valid(bikeNet)
+
+# distance to the closest public art
+bikeNet_nearest_fts <- st_nearest_feature(park_rev,bikeNet)
+
+park_rev$bikeNet_distance <- as.double(st_distance(park_rev,bikeNet[bikeNet_nearest_fts,], by_element=TRUE))
+```
+
+```{r highway}
+highway <- st_read('https://opendata.arcgis.com/datasets/0a0d06a0c78e47c5bb73cde26630db07_0.geojson') %>% st_transform('EPSG:4326')
+
+# shortest distance to the closest highway
+
+highway <- st_make_valid(highway)
+
+# distance to the closest public art
+highway_nearest_fts <- st_nearest_feature(park_rev,highway)
+
+park_rev$highway_distance <- as.double(st_distance(park_rev,highway[highway_nearest_fts,], by_element=TRUE))
+```
+
+
+```{r railline}
+railline <- st_read('PaRailLines2024_03.geojson') %>% st_transform('EPSG:4326')
+
+# shortest distance to the closest bikenet
+railline <- st_make_valid(railline)
+
+# distance to the closest public art
+railline_nearest_fts <- st_nearest_feature(park_rev,railline)
+
+park_rev$railline_distance <- as.double(st_distance(park_rev,railline[railline_nearest_fts,], by_element=TRUE))
+```
+
+```{r demolished housing}
+
+demoHousing <- st_read('https://phl.carto.com/api/v2/sql?q=SELECT+*+FROM+demolitions&filename=demolitions&format=geojson&skipfields=cartodb_id') %>% st_transform('EPSG:4326')
+
+# shortest distance to the closest bikenet
+demoHousing <- st_make_valid(demoHousing)
+
+# distance to the closest public art
+demoHousing_nearest_fts <- st_nearest_feature(park_rev,demoHousing)
+
+park_rev$demoHousing_distance <- as.double(st_distance(park_rev,demoHousing[demoHousing_nearest_fts,], by_element=TRUE))
+```
+```{r}
+park_rev <- park_rev %>%
+  group_by(ParkName) %>%
+  slice(1) %>%
+  ungroup()
+```
+
+```{r}
+st_write(park_rev, "reg_spatialvar", driver = "GeoJSON")
+```
+
+```{r}
+acs_2023 <- acs_2023 %>%
+  mutate(vacantPct = vacant_units/total_housing_units,
+         seniorPct = age_65plus / totalPop,
+         kidPct = 1- (age_18_24+age_25_44+age_45_64)/totalPop)
+```
+
+
+```{r}
+breaks <- quantile(acs_2023$popDensity * 100, probs = seq(0, 1, length.out = 6), na.rm = TRUE)
+
+ggplot(data = acs_2023) +
+  geom_sf(aes(fill = cut(popDensity * 100, breaks = breaks))) +
+  scale_fill_manual(values = c("#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"),
+                    name = "Population Density per sqft") +
+  labs(
+    title = "Population Density in Philadelphia",
+    caption = "Source: ACS2023"
+  ) +
+  theme_void() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+```{r}
+breaks <- quantile(acs_2023$median_HH_income, probs = seq(0, 1, length.out = 6), na.rm = TRUE)
+
+ggplot(data = acs_2023) +
+  geom_sf(aes(fill = cut(median_HH_income, breaks = breaks))) +
+  scale_fill_manual(values = c("#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"),
+                    name = "Median Household Income") +
+  labs(
+    title = "Median Household Income in Philadelphia",
+    caption = "Source: ACS2023"
+  ) +
+  theme_void() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+```{r}
+breaks <- quantile(acs_2023$seniorPct, probs = seq(0, 1, length.out = 6), na.rm = TRUE)
+
+ggplot(data = acs_2023) +
+  geom_sf(aes(fill = cut(seniorPct, breaks = breaks))) +
+  scale_fill_manual(values = c("#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"),
+                    name = "Senior Poppulation Percentage") +
+  labs(
+    title = "Senior Poppulation Percentage in Philadelphia",
+    caption = "Source: ACS2023"
+  ) +
+  theme_void() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+
+```{r}
+breaks <- quantile(acs_2023$vacantPct, probs = seq(0, 1, length.out = 6), na.rm = TRUE)
+
+ggplot(data = acs_2023) +
+  geom_sf(aes(fill = cut(vacantPct, breaks = breaks))) +
+  scale_fill_manual(values = c("#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"),
+                    name = "Vacant Housing Percentage") +
+  labs(
+    title = "Vacant Housing Percentage by Block Group in Philadelphia",
+    caption = "Source: ACS2023"
+  ) +
+  theme_void() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+```{r}
+breaks <- quantile(acs_2023$pctBlackPop, probs = seq(0, 1, length.out = 6), na.rm = TRUE)
+
+ggplot(data = acs_2023) +
+  geom_sf(aes(fill = cut(pctBlackPop, breaks = breaks))) +
+  scale_fill_manual(values = c("#ffffcc","#a1dab4","#41b6c4","#2c7fb8","#253494"),
+                    name = "African American Population Percentage") +
+  labs(
+    title = "African American Population Percentage by Block Group in Philadelphia",
+    caption = "Source: ACS2023"
+  ) +
+  theme_void() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+
+```{r}
+acs_selected <- acs_2023[c("totalPop","median_HH_income", "vacantPct", "seniorPct", "kidPct","pctWhitePop","pctBlackPop","popDensity",
+                           "WhiteHOrate","houseprice")]
+
+```
+
+
+
+```{r}
+park_rev <- st_read("reg_spatialvar") %>% st_transform(crs = 4326)
+#acs_selected <- st_transform(park_rev)
+if (st_crs(park_rev) != st_crs(acs_selected)) {
+  acs_selected <- st_transform(acs_selected, st_crs(park_rev))
+}
+park_rev_merge <- st_intersection(park_rev, acs_selected)
+```
+```{r}
+
+```
+
+
+```{r}
+park_rev <- park_rev %>%
+  group_by(ParkName) %>%
+  slice(1) %>%
+  ungroup()
+```
+
+
+```{r}
+st_write(park_rev_merge, "reg_allvar_new_new", driver = "GeoJSON")
+```
+```{r}
+park_rev_merge <-st_read('reg_allvar_new_new')
+```
+
+```{r}
+park_rev_nongeo <- park_rev_merge %>% st_drop_geometry()
+```
+
+```{r fig.height=12, fig.width=12}
+park_rev_nongeo %>%
+  dplyr::select(-highway_distance,-Lat,-Long)%>%
+  correlate() %>%
+  autoplot() +
+  geom_text(aes(label = round(r, digits = 2)), size = 3.5, order = "hclust", type = "upper", tl.cex = 3)
+```
+```{r}
+mod_sent <- lm(avg_sentiment ~ ., data =park_rev_nongeo%>% 
+                        dplyr::select(-inspirationPct, -relaxationPct, -sorrowPct, - engagementPct, -FAPct, -discoveryPct, -ParkName,-ParkName.x, -ParkName.y,-Lat, -Long,- highway_distance,-houseprice,-totalPop,-bikeNet_distance,
+                                       -seniorPct, -school_distance,-vacantPct,-art_distance,-demoHousing_distance,
+                                      -WhiteHOrate,- pctBlackPop,-railline_distance,-median_HH_income,-seniorPct))
+summary(mod_sent)
+library(broom)
+# Tidy the model output
+tidy_model_sent <- tidy(mod_sent)
+
+# View the tidy data frame
+print(tidy_model_sent)
+
+# Save the tidy data frame to a CSV file
+write.csv(tidy_model_sent, "sentiment_regression_results.csv", row.names = FALSE)
+```
+```{r}
+library (gmodels)               # do this everytime you start new R sess
+library (MASS)
+
+CrossTable (park_rev_nongeo$avg_sentiment, park_rev_nongeo$tree_count, fisher = FALSE, chisq = TRUE, 
+             expected = TRUE, sresid = FALSE, format="SPSS")
+```
+
+```{r fig.width=12}
+library(jtools)     # for regression model plots
+library(ggstance) # to support jtools plots
+library(ggpubr)    # plotting R^2 value on ggplot point scatter
+library(broom.mixed)
+
+root.dir = "https://raw.githubusercontent.com/urbanSpatial/Public-Policy-Analytics-Landing/master/DATA/"
+source("https://raw.githubusercontent.com/urbanSpatial/Public-Policy-Analytics-Landing/master/functions.r")
+
+park_rev_nongeo %>%
+  dplyr::select(inspirationPct, railline_distance, median_HH_income, WhiteHOrate, crime23_count,seniorPct) %>%
+  gather(Variable, Value, -inspirationPct) %>% 
+   ggplot(aes(Value, inspirationPct)) +
+     geom_point(size = .5) + geom_smooth(method = "lm", se=F, colour = "#0081a7") +
+     facet_wrap(~Variable, nrow = 1, scales = "free") +
+     labs(title = "inspirationPct as a function of continuous variables") +
+     plotTheme()
+```
+```{r}
+library(stargazer)
+mod_insp <- lm(inspirationPct ~ log(railline_distance) + log(crime23_count) + log(median_HH_income), data =park_rev_nongeo%>% 
+                        dplyr::select(inspirationPct,railline_distance,crime23_count,median_HH_income))
+summary(mod_insp)
+
+```
+
+```{r}
+library(stargazer)
+mod_insp <- lm(inspirationPct ~ log(railline_distance) + log(crime23_count) + log(median_HH_income), data =park_rev_nongeo%>% 
+                        dplyr::select(inspirationPct,railline_distance,crime23_count,median_HH_income))
+summary(mod_insp)
+
+anova(mod_insp,test = "Chisq" )
+drop1(mod_insp, test="Chisq")
+
+print(mod_insp)
+# Tidy the model output
+tidy_model_insp <- tidy(mod_insp)
+
+# View the tidy data frame
+print(tidy_model_sent)
+stargazer(mod_insp, type = "html", out = "mod_insp_regression_results.html")
+
+# Save the tidy data frame to a CSV file
+write.csv(mod_insp, "inspiration_regression_results.csv", row.names = FALSE)
+```
+
+
+```{r}
+mod_rex <- lm(relaxationPct ~ log(railline_distance) + vacantPct +seniorPct +WhiteHOrate , data =park_rev_nongeo%>% 
+                        dplyr::select(-avg_sentiment, -inspirationPct, -sorrowPct, - engagementPct, -FAPct, -discoveryPct, -ParkName,-ParkName.x, -ParkName.y,-Lat, -Long,- highway_distance,-houseprice,-totalPop,-art_distance,-bikeNet_distance,
+                                        -pctWhitePop, -school_distance,-popDensity,-crime23_count,
+                                      -kidPct, - pctBlackPop,demoHousing_distance, -demoHousing_distance,-tree_count,-median_HH_income))
+summary(mod_rex)
+
+anova(mod_rex,test = "Chisq" )
+drop1(mod_rex, test="Chisq")
+```
+```{r}
+mod_sorrow <- lm(sorrowPct ~ log(tree_count) + log(crime23_count)+pctBlackPop+popDensity , data =park_rev_nongeo%>% 
+                        dplyr::select(-avg_sentiment, -inspirationPct, -relaxationPct, - engagementPct, -FAPct, -discoveryPct, -ParkName,-ParkName.x, -ParkName.y,-Lat, -Long,- highway_distance,-houseprice,
+                                       -seniorPct, -pctWhitePop,-art_distance,-bikeNet_distance, -school_distance,-railline_distance,
+                                      -WhiteHOrate,-kidPct,-demoHousing_distance,-median_HH_income,-vacantPct,-totalPop ))
+
+summary(mod_sorrow)
+
+anova(mod_sorrow,test = "Chisq" )
+drop1(mod_sorrow, test="Chisq")
+```
+
+```{r}
+mod_FA <- lm(FAPct ~ log(tree_count) +vacantPct, data =park_rev_nongeo%>% 
+                        dplyr::select(-avg_sentiment, -inspirationPct, -relaxationPct, - engagementPct, -sorrowPct, -discoveryPct, -ParkName,-ParkName.x, -ParkName.y,-Lat, -Long,- highway_distance,-totalPop,-houseprice,
+                                       -seniorPct, -pctWhitePop,-art_distance,-bikeNet_distance, -school_distance,-railline_distance,
+                                      -WhiteHOrate, -popDensity,-kidPct ,- demoHousing_distance,-crime23_count,- pctBlackPop,-median_HH_income ))
+
+summary(mod_FA)
+
+anova(mod_FA,test = "Chisq" )
+drop1(mod_FA, test="Chisq")
+```
+```{r}
+cleaned_data <- park_rev_nongeo %>%
+  dplyr::select(discoveryPct, art_distance, school_distance, vacantPct, kidPct) %>%
+  dplyr::filter_all(dplyr::all_vars(is.finite(.))) %>%
+  dplyr::filter(art_distance > 0, school_distance > 0)  # Ensure positive values for log transformation
+
+# Fit the model
+mod_disc <- lm(discoveryPct ~ log(art_distance) + log(school_distance) + vacantPct + kidPct, data = cleaned_data)
+```
+
+```{r}
+summary(mod_disc)
+```
+
+
+```{r}
+mod_disc <- lm(discoveryPct ~ log(art_distance) + log(school_distance)+ vacantPct + kidPct, data =park_rev_nongeo%>% 
+                        dplyr::select(-avg_sentiment, -inspirationPct, -relaxationPct, - engagementPct, -sorrowPct, -FAPct, -ParkName,-ParkName.x, -ParkName.y,-Lat, -Long,- highway_distance,-houseprice,-totalPop,-bikeNet_distance,
+                                      -railline_distance, -seniorPct, -demoHousing_distance,-pctWhitePop,-pctBlackPop,
+                                      -WhiteHOrate,-median_HH_income, -popDensity, -crime23_count,-tree_count))
+
+summary(mod_disc)
+
+anova(mod_disc,test = "Chisq" )
+drop1(mod_disc, test="Chisq")
+```
+```{r}
+mod_engg <- lm(engagementPct ~ log(tree_count)+log(school_distance)+ log(crime23_count)+popDensity, data =park_rev_nongeo%>% 
+                        dplyr::select(-avg_sentiment, -inspirationPct, -relaxationPct, - discoveryPct, -sorrowPct, -FAPct, -ParkName,-ParkName.x, -ParkName.y,-Lat, -Long,-art_distance, - highway_distance,-houseprice,-totalPop,-bikeNet_distance,
+                                      -vacantPct,-railline_distance, -seniorPct, -kidPct,-demoHousing_distance,-pctWhitePop,-pctBlackPop,
+                                      -WhiteHOrate,-median_HH_income))
+
+summary(mod_engg)
+
+anova(mod_engg,test = "Chisq" )
+drop1(mod_engg, test="Chisq")
+```
+
+```{r}
+library(stargazer)
+
+# Generate a single table with all three models using stargazer
+stargazer(mod_insp, mod_rex, mod_FA,mod_engg,mod_disc,mod_sorrow, type = "html", out = "multiple_regression_results.html")
+
+
+```
+```{r fig.height=8, fig.width=10}
+emotion_data <- data.frame(
+  Label = c("disapproval", "neutral", "disappointment", "annoyance", "sadness", "realization",
+            "approval", "optimism", "confusion", "anger", "disgust", "embarrassment", "caring",
+            "remorse", "desire", "nervousness", "relief", "admiration", "fear", "joy", "love",
+            "grief", "surprise", "gratitude", "curiosity", "amusement", "excitement", "pride"),
+  Score = c(0.513, 0.311, 0.306, 0.075, 0.032, 0.031, 0.029, 0.006, 0.005, 0.004, 0.004, 0.004,
+            0.004, 0.003, 0.003, 0.002, 0.002, 0.002, 0.002, 0.001, 0.001, 0.001, 0.001, 0.000956962,0.000923499,
+0.000829571,
+0.000761683,
+0.000508859))
+
+# Update Score to string representation for <0.001 values
+emotion_data <- emotion_data %>%
+  mutate(Score = ifelse(Score < 0.001, "<0.001", formatC(Score, format = "f", digits = 3)))
+
+# Reorder Label factor by Score in descending order, treating <0.001 as lowest
+emotion_data <- emotion_data %>%
+  mutate(NumericScore = ifelse(Score == "<0.001", -Inf, as.numeric(as.character(Score)))) %>%
+  mutate(Label = factor(Label, levels = Label))
+
+# Create the bar chart
+p <- ggplot(emotion_data, aes(x = reorder(Label, NumericScore), y = as.numeric(as.character(NumericScore)))) +
+  geom_bar(stat = "identity", fill = "#9BC2D8") +
+  coord_flip() +
+  geom_text(aes(label = Score), hjust = -0.1, size = 3) +
+  labs(x = "Emotion", y = "Score") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0, hjust = 1))
+
+
+ggsave("emotion_analysis_result.jpg", plot = p, width = 8, height = 6)
+
+p
+```
+
+

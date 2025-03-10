@@ -1,0 +1,219 @@
+[
+  {
+    "objectID": "index.html#health-indicators-and-indices",
+    "href": "index.html#health-indicators-and-indices",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "1 Health Indicators and Indices",
+    "text": "1 Health Indicators and Indices\n\nHealth Indicators: Directly measurable variables reflecting a population’s health such as infant mortality rate and life expectancy.\nHealth Indices: Composite measures combining multiple indicators to give an overview of health status, like the Human Development Index.\n\n\n\nSee Box 3.1 and Box 3.3 for more details."
+  },
+  {
+    "objectID": "index.html#sources-and-quality-of-health-data",
+    "href": "index.html#sources-and-quality-of-health-data",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "2 Sources and quality of health data",
+    "text": "2 Sources and quality of health data\n\nSee Table 3.1 -sources of data to compilate indicators.\nHealth data sources are crucial for compiling health indicators.\nData can originate from individuals, healthcare providers, or be generated through health surveys and administrative databases.\n\nActive or passive?\n\nActive Data Sources: Require efforts to solicit and collect information, e.g., health surveys.\nPassive Data Sources: Routinely submitted by other entities, e.g., vital statistics."
+  },
+  {
+    "objectID": "index.html#summary-measures-of-population-health",
+    "href": "index.html#summary-measures-of-population-health",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "3 Summary measures of population health",
+    "text": "3 Summary measures of population health\nIntegrating Mortality and Morbidity\n\nHealth indices like DFLE, DALE, DALY, HALE, QALY, and HLY combine measures of mortality with morbidity or disability into a single comprehensive figure.\nThese measures differ in how they account for morbidity:\n\nActivities of daily living\nSelf-rated health\nActivity limitations (institutional and non-institutional)"
+  },
+  {
+    "objectID": "index.html#understanding-icd-9-and-icd-10-codes",
+    "href": "index.html#understanding-icd-9-and-icd-10-codes",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "4 Understanding ICD-9 and ICD-10 Codes",
+    "text": "4 Understanding ICD-9 and ICD-10 Codes\n\nWhat is ICD?\n\nThe International Classification of Diseases (ICD) is a standardized system for classifying diseases, conditions, and procedures.\nMaintained by the World Health Organization (WHO), it is used for healthcare administration, epidemiology, and research."
+  },
+  {
+    "objectID": "index.html#sensitivity-and-specificity",
+    "href": "index.html#sensitivity-and-specificity",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "5 Sensitivity and Specificity",
+    "text": "5 Sensitivity and Specificity\n\nAccurately diagnosing and classifying diseases is critical for effective treatment and disease tracking.\nErrors in classification—whether due to poor coding, faulty diagnostic tests, or reporting mistakes—can significantly impact health outcomes and policy decisions."
+  },
+  {
+    "objectID": "index.html#rapid-intro",
+    "href": "index.html#rapid-intro",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "1 Rapid intro",
+    "text": "1 Rapid intro\n\nmentimeter\n\n\n\ngoogle trends"
+  },
+  {
+    "objectID": "index.html#github",
+    "href": "index.html#github",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "GitHub",
+    "text": "GitHub\n\nClone the repository to your local machine."
+  },
+  {
+    "objectID": "index.html#webscraping-and-apis",
+    "href": "index.html#webscraping-and-apis",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "2 Webscraping and APIs",
+    "text": "2 Webscraping and APIs\n\nWebscraping: Using software to gather and extract data/content from websites\n\n\n\nSource: Geoff Boeing"
+  },
+  {
+    "objectID": "index.html#earthquake-feeds",
+    "href": "index.html#earthquake-feeds",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "Earthquake feeds",
+    "text": "Earthquake feeds\n\nAutomated data feeds: The simplest form of API is when data providers maintain data files via a URL that are automatically updated with new data over time.\nEarthQuakes (USGS) ↔︎ API for near-real-time earthquakes.\nhttp://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson\nNote the JSON response\n\n{\"type\":\"FeatureCollection\",\"metadata\":{\"generated\":1741603385000,\"url\":\"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson\",\"title\":\"USGS Magnitude 4.5+ Earthquakes, Past Day\",\"status\":200,\"api\":\"1.14.1\",\"count\":11},\"features\":[{\"type\":\"Feature\",\"properties\":{\"mag\":4.8,\"place\":\"31 km ENE of Luganville, Vanuatu\",\"time\":1741582256264,\"updated\":1741583247040,\"tz\":null,\"url\":\"https://earthquake.usgs.gov/......"
+  },
+  {
+    "objectID": "index.html#air-quality-data",
+    "href": "index.html#air-quality-data",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "Air quality data",
+    "text": "Air quality data\n\nMany sensors containing information on weather characteristics and air quality.\nHere we are interested to use a library called airpyllution and openweathermap\nLet’s do some exercises mappingAirQualityWithAPI"
+  },
+  {
+    "objectID": "index.html#useful-python-libraries",
+    "href": "index.html#useful-python-libraries",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "3 Useful python libraries",
+    "text": "3 Useful python libraries\n\nThe requests library is a simple and elegant HTTP library for Python.\n\nInstallation\npip install requests\nimport requests\n\nresponse = requests.get(\"https://api.github.com\")\nprint(response.status_code)  # Prints HTTP status code\nprint(response.json())  # Prints JSON response if available\n\nKey features:\n\nSending HTTP Requests: GET, POST, PUT, DELETE\nHandling Response Data: JSON parsing, content retrieval\nCustom Headers & Parameters: Easily send custom headers and parameters"
+  },
+  {
+    "objectID": "index.html#json-xml-responses",
+    "href": "index.html#json-xml-responses",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "JSON & XML responses",
+    "text": "JSON & XML responses"
+  },
+  {
+    "objectID": "index.html#other-examples",
+    "href": "index.html#other-examples",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "Other examples",
+    "text": "Other examples\n\nstatbel\nopen Brussels"
+  },
+  {
+    "objectID": "index.html#beautiful-soup",
+    "href": "index.html#beautiful-soup",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "4 Beautiful Soup",
+    "text": "4 Beautiful Soup\n\nParsing HTML Easily\nExtracting Titles from a Webpage\nSee example beautifulSoup for restaurants in Philadelphia.\nfood inspection\n\nimport requests\nfrom bs4 import BeautifulSoup\n\n# Fetch HTML content\nurl = \"https://example.com\"\nresponse = requests.get(url)\n\n# Parse HTML with BeautifulSoup\nsoup = BeautifulSoup(response.content, 'html.parser')\n\n# Extract all h1 titles\ntitles = [title.text for title in soup.find_all('h1')]\nprint(titles)"
+  },
+  {
+    "objectID": "index.html#examples-of-apis",
+    "href": "index.html#examples-of-apis",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "Examples of APIs",
+    "text": "Examples of APIs\n\nGoogle Place API\nFour squares API\nMapping venues"
+  },
+  {
+    "objectID": "index.html#webscraping-and-apis-1",
+    "href": "index.html#webscraping-and-apis-1",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "2 Webscraping and APIs",
+    "text": "2 Webscraping and APIs\n\nWhat is an Application Programming Interface?\n\n(noun): A particular set of rules and specifications that software programs can follow to communicate with each other and exchange data."
+  },
+  {
+    "objectID": "index.html#webscraping-and-apis-2",
+    "href": "index.html#webscraping-and-apis-2",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "2 Webscraping and APIs",
+    "text": "2 Webscraping and APIs\nThere are some important legal issues\n\nCopyright infringement: pictures, rental listing text\n\nTerms of Use violations\n\nUnauthorized: Is scraping prohibited in the website’s terms of use?\nIntentional: Was the person aware of the terms? Did they check an “I agree to these terms” box?\nCauses damage: Did the scraping overload the website, blocking user access?"
+  },
+  {
+    "objectID": "index.html#useful-python-libraries-1",
+    "href": "index.html#useful-python-libraries-1",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "3 Useful python libraries",
+    "text": "3 Useful python libraries"
+  },
+  {
+    "objectID": "index.html#json-response",
+    "href": "index.html#json-response",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "JSON response",
+    "text": "JSON response\n\nJSON (JavaScript Object Notation) is the standard format for API responses.\nEasily parsed and manipulated in Python.\nLet’s do an example gitHubAccount\n\nimport requests\n\nurl = \"https://api.github.com/users/octocat\"\nresponse = requests.get(url)\ndata = response.json()\n\nprint(\"User:\", data[\"login\"])\nprint(\"ID:\", data[\"id\"])\nprint(\"Profile URL:\", data[\"html_url\"])\n\nExplanation\n\nSends a GET request to GitHub’s API for user data.\nConverts the response into a JSON dictionary.\nPrints the username, ID, and profile URL."
+  },
+  {
+    "objectID": "index.html#javascript-object-notation",
+    "href": "index.html#javascript-object-notation",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "JavaScript Object Notation",
+    "text": "JavaScript Object Notation\n\nJSON is the standard format for API responses.\nEasily parsed and manipulated in Python.\nLet’s do an example gitHubAccount\n\nimport requests\n\nurl = \"https://api.github.com/users/octocat\"\nresponse = requests.get(url)\ndata = response.json()\n\nprint(\"User:\", data[\"login\"])\nprint(\"ID:\", data[\"id\"])\nprint(\"Profile URL:\", data[\"html_url\"])\n\nExplanation\n\nSends a GET request to GitHub’s API for user data.\nConverts the response into a JSON dictionary.\nPrints the username, ID, and profile URL."
+  },
+  {
+    "objectID": "index.html#other-examples-of-api",
+    "href": "index.html#other-examples-of-api",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "5 Other examples of API",
+    "text": "5 Other examples of API\n\nSee example FourSquareAPI of venues around the VUB."
+  },
+  {
+    "objectID": "index.html#lunch",
+    "href": "index.html#lunch",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "6 LUNCH",
+    "text": "6 LUNCH"
+  },
+  {
+    "objectID": "index.html#what-are-semi-tructured-data",
+    "href": "index.html#what-are-semi-tructured-data",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "7 What are semi-tructured data?",
+    "text": "7 What are semi-tructured data?\n\nDefinition: Semi-structured data is a type of data that does not reside in a traditional relational database but still has some structure, such as metadata or tags.\nExamples: JSON, XML, HTML, emails, and web-scraped data.\nExample of Unstructured Text Before Processing:\n\nReview ID: 12345\nUser: Alex B.\nDate: March 5, 2024\nReview: \"Great coffee place! Loved the ambiance. The espresso was strong, just the way I like it. Highly recommend!\"\n\nReview ID: 12346\nUser: Maria P.\nDate: March 6, 2024\nReview: \"Service was slow and the pastries were stale. Won't visit again.\"\n\nNotice how the data lacks consistent formatting, requiring processing before it can be analyzed."
+  },
+  {
+    "objectID": "index.html#text-mining-fundamentals",
+    "href": "index.html#text-mining-fundamentals",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "8 Text Mining Fundamentals",
+    "text": "8 Text Mining Fundamentals\n\nDefinition: Text mining involves extracting meaningful information from unstructured text data.\nApplications: Sentiment analysis, topic modeling, named entity recognition.\nNatural Language Processing (NLP) enables machines to understand, interpret, and generate text-based data in meaningful ways.\n\nTechniques\n\nTokenization: Splitting text into words or phrases.\nStop-word removal: Removing common words that add little meaning (e.g., “the,” “is”).\nStemming and Lemmatization: Reducing words to their base form (e.g., “running” → “run”)."
+  },
+  {
+    "objectID": "index.html#text-mining-fundamentals-1",
+    "href": "index.html#text-mining-fundamentals-1",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "Text Mining Fundamentals",
+    "text": "Text Mining Fundamentals\nIntroduction to Text Mining\n\nDefinitions and applications\n\nTechniques\n\nTokenization\nStop-word removal\nStemming and Lemmatization\n\nVisualizing Text Data\n\nWord clouds\nFrequency distributions"
+  },
+  {
+    "objectID": "index.html#sentiment-analysis-with-transformer-models",
+    "href": "index.html#sentiment-analysis-with-transformer-models",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "9 Sentiment Analysis with Transformer Models",
+    "text": "9 Sentiment Analysis with Transformer Models\n\nDefinition: Sentiment analysis, also known as opinion mining, is the process of determining the emotional tone behind a body of text.\nApplications:\n\nSocial media monitoring (e.g., analyzing tweets about a brand).\nCustomer feedback analysis (e.g., extracting sentiment from online reviews).\nPublic health (e.g., analyzing mental health trends based on public forum posts).\nPolitical sentiment tracking (e.g., understanding public opinion on policies or politicians).\n\n\nExample of Sentiment Labeled Data:\n\"The coffee was amazing and the staff was super friendly!\" → Positive\n\"The service was slow, and my order was wrong.\" → Negative\n\"The place was okay, but nothing special.\" → Neutral"
+  },
+  {
+    "objectID": "index.html#hands-on-sentiment-analysis-of-311-requests",
+    "href": "index.html#hands-on-sentiment-analysis-of-311-requests",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "Hands-on: Sentiment Analysis of 311 Requests",
+    "text": "Hands-on: Sentiment Analysis of 311 Requests\nVisualizing Emotional Data\n\nSpatial visualization techniques\n\nContent Analysis of Emotional Themes\n\nFrequent words\nThematic analysis"
+  },
+  {
+    "objectID": "index.html#advanced-emotion-analysis",
+    "href": "index.html#advanced-emotion-analysis",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "Advanced Emotion Analysis",
+    "text": "Advanced Emotion Analysis\nIntroduction to Emotion Analysis\n\nFrom sentiment to specific emotions\n\nEmotion Detection Models\n\nFine-tuning RoBERTa for emotions\nCase example with Google park reviews\n\nVisualizing Emotional Data\n\nSpatial visualization techniques\n\nContent Analysis of Emotional Themes\n\nFrequent words\nThematic analysis"
+  },
+  {
+    "objectID": "index.html#conclusion-practical-implications",
+    "href": "index.html#conclusion-practical-implications",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "Conclusion & Practical Implications",
+    "text": "Conclusion & Practical Implications\nSummary of Key Learnings\nImplications for Urban Planning\n\nActionable insights\nPolicy and management implications\n\nReal-world Applications\n\nPublic health and urban planning\n\nLimitations and Ethical Considerations\n\nData privacy concerns\nBiases in data\n\nFuture Research Directions\n\nAdvancing NLP applications\nGeospatial analysis enhancements\n\nQ&A\n\nInteractive session\nFinal thoughts and discussion"
+  },
+  {
+    "objectID": "index.html#data-cleaning-techniques",
+    "href": "index.html#data-cleaning-techniques",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "8 Data Cleaning Techniques",
+    "text": "8 Data Cleaning Techniques\n\nColumn Standardization:\n\nStandardizing column names and ensuring consistent naming conventions.\n\nHandling Missing Data:\n\nFilling missing values or removing incomplete records.\n\n\nExample of Cleaning Google Reviews Data:\nimport pandas as pd\n\n# Sample unstructured data\nreviews = [\n    {\"review_id\": 12345, \"user\": \"Alex B.\", \"review\": \"Great coffee place! Loved the ambiance.\"},\n    {\"review_id\": 12346, \"user\": \"Maria P.\", \"review\": None},\n    {\"review_id\": 12347, \"user\": \"John D.\", \"review\": \"Amazing espresso!\"}\n]\n\n# Convert to DataFrame\ndf = pd.DataFrame(reviews)\n\n# Handle missing data\ndf['review'].fillna(\"No review provided\", inplace=True)\nprint(df)"
+  },
+  {
+    "objectID": "index.html#sentiment-analysis-with-transformer-models-1",
+    "href": "index.html#sentiment-analysis-with-transformer-models-1",
+    "title": "Analyzing Unstructured Text with Large Language Models",
+    "section": "9 Sentiment Analysis with Transformer Models",
+    "text": "9 Sentiment Analysis with Transformer Models\n\nIntroduction to RoBERTa:\n\nRoBERTa (Robustly Optimized BERT Pretraining Approach) is an improvement over BERT, fine-tuned for better performance on sentiment and emotion classification.\n\nUnlike traditional models, it removes Next Sentence Prediction and dynamically changes the masking pattern, leading to higher accuracy on text classification tasks.\nHow Attention Mechanisms Work:\n\nUnlike traditional models, transformers use self-attention to process words in context.\n\nExample: The word “bank” in “river bank” vs “financial bank” has different meanings, and transformers understand this difference better."
+  }
+]

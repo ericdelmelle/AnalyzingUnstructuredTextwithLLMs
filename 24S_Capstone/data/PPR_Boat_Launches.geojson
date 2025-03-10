@@ -1,0 +1,68 @@
+{
+  "displayFieldName" : "",
+  "fieldAliases" : {
+    "OBJECTID" : "OBJECTID",
+    "AMENITY_NAME" : "AMENITY_NAME",
+    "PARENT_NAME" : "PARENT_NAME",
+    "ALIAS" : "ALIAS",
+    "RAMP" : "RAMP",
+    "DOCK" : "DOCK",
+    "PARKING" : "PARKING",
+    "COMMENTS" : "COMMENTS"
+  },
+  "geometryType" : "esriGeometryPoint",
+  "spatialReference" : {
+    "wkid" : 102100,
+    "latestWkid" : 3857
+  },
+  "fields" : [
+    {
+      "name" : "OBJECTID",
+      "type" : "esriFieldTypeOID",
+      "alias" : "OBJECTID"
+    },
+    {
+      "name" : "AMENITY_NAME",
+      "type" : "esriFieldTypeString",
+      "alias" : "AMENITY_NAME",
+      "length" : 100
+    },
+    {
+      "name" : "PARENT_NAME",
+      "type" : "esriFieldTypeString",
+      "alias" : "PARENT_NAME",
+      "length" : 100
+    },
+    {
+      "name" : "ALIAS",
+      "type" : "esriFieldTypeString",
+      "alias" : "ALIAS",
+      "length" : 254
+    },
+    {
+      "name" : "RAMP",
+      "type" : "esriFieldTypeString",
+      "alias" : "RAMP",
+      "length" : 3
+    },
+    {
+      "name" : "DOCK",
+      "type" : "esriFieldTypeString",
+      "alias" : "DOCK",
+      "length" : 3
+    },
+    {
+      "name" : "PARKING",
+      "type" : "esriFieldTypeString",
+      "alias" : "PARKING",
+      "length" : 3
+    },
+    {
+      "name" : "COMMENTS",
+      "type" : "esriFieldTypeString",
+      "alias" : "COMMENTS",
+      "length" : 254
+    }
+  ],
+  "features" : [{"attributes":{"OBJECTID":1,"AMENITY_NAME":"Linden Avenue Boat Ramp","PARENT_NAME":"Pleasant Hill Park","ALIAS":"The River at Linden Ave","RAMP":"Y","DOCK":"N","PARKING":"Y","COMMENTS":"Unlimited Horsepower; Closed until further notice."},"geometry":{"x":-8348072.3357999995,"y":4871909.7971000001}},{"attributes":{"OBJECTID":2,"AMENITY_NAME":"East Park Canoe House Launch","PARENT_NAME":"East Fairmount Park","ALIAS":"Temple Boathouse Dock","RAMP":"N","DOCK":"Y","PARKING":"Y","COMMENTS":"Mainly for Kayaks & Canoes, several locations here"},"geometry":{"x":-8370545.7035000008,"y":4865035.6018000022}},{"attributes":{"OBJECTID":3,"AMENITY_NAME":"Walnut Street Dock","PARENT_NAME":"Schuylkill Banks","ALIAS":" ","RAMP":"N","DOCK":"Y","PARKING":"N","COMMENTS":"This boat launch is only designed to accommodate non-motorized watercraft. Maintained by SRDC."},"geometry":{"x":-8369115.4094999991,"y":4858947.112499997}},{"attributes":{"OBJECTID":4,"AMENITY_NAME":"Bartrams Garden Dock","PARENT_NAME":"Bartrams Garden","ALIAS":"Bartram's Garden Community Boathouse and Dock","RAMP":"N","DOCK":"Y","PARKING":"Y","COMMENTS":"Pedestrian and kayaks"},"geometry":{"x":-8372136.3221000005,"y":4856267.822300002}},{"attributes":{"OBJECTID":5,"AMENITY_NAME":"Tugboat House Boat Launch","PARENT_NAME":"West Fairmount Park","ALIAS":"Tugboat House at Belmont Landing;Phila Rowing Program for the Disabled, Inc.;Philadelphia Adaptive Rowing","RAMP":"N","DOCK":"Y","PARKING":"Y","COMMENTS":"Private, Historic. It is only designed to accommodate non-motorized watercraft."},"geometry":{"x":-8371683.3910000008,"y":4863123.8861000016}},{"attributes":{"OBJECTID":6,"AMENITY_NAME":"Boathouse Row Launch (Bachelors)","PARENT_NAME":"East Fairmount Park","ALIAS":"Bachelor's Barge Club","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369775.5355999991,"y":4861465.8533999994}},{"attributes":{"OBJECTID":7,"AMENITY_NAME":"Boathouse Row Launch (Lloyd Hall)","PARENT_NAME":"East Fairmount Park","ALIAS":"Wheel Fun","RAMP":"Y","DOCK":"Y","PARKING":"Y","COMMENTS":"Private. Off limits during regattas. Only designed to accommodate non-motorized watercraft."},"geometry":{"x":-8369643.4035999998,"y":4861425.1322000027}},{"attributes":{"OBJECTID":8,"AMENITY_NAME":"Frankford Boat Launch (North)","PARENT_NAME":"Frankford Boat Launch","ALIAS":"PA Fish & Boat;Frankford Arsenal Boat Launch","RAMP":"Y","DOCK":"Y","PARKING":"Y","COMMENTS":"Closed until further notice due to structural issues."},"geometry":{"x":-8355184.8427000009,"y":4867012.317400001}},{"attributes":{"OBJECTID":9,"AMENITY_NAME":"Frankford Boat Launch (South)","PARENT_NAME":"Frankford Boat Launch","ALIAS":"PA Fish & Boat;Frankford Arsenal Boat Launch","RAMP":"Y","DOCK":"Y","PARKING":"Y","COMMENTS":"Closed until further notice due to structural issues."},"geometry":{"x":-8355193.7865999993,"y":4866999.2118000016}},{"attributes":{"OBJECTID":10,"AMENITY_NAME":"St Josephs Boathouse Launch (North)","PARENT_NAME":"East Fairmount Park","ALIAS":"St. Joseph's University Boathouse;Gillin Boathouse","RAMP":"Y","DOCK":"Y","PARKING":"Y","COMMENTS":"Private"},"geometry":{"x":-8370703.5447000004,"y":4864871.3408000022}},{"attributes":{"OBJECTID":11,"AMENITY_NAME":"Tacony Boat Launch","PARENT_NAME":"Tacony Boat Launch","ALIAS":"Princeton Ave Boat Launch","RAMP":"Y","DOCK":"N","PARKING":"Y","COMMENTS":"Free launch site for small motorized and non-motorized watercraft."},"geometry":{"x":-8352624.4136999995,"y":4868832.7827000022}},{"attributes":{"OBJECTID":12,"AMENITY_NAME":"East Park Canoe House Launch (North)","PARENT_NAME":"East Fairmount Park","ALIAS":"Kelly Dr Pier; Boy Scout Dock","RAMP":"N","DOCK":"Y","PARKING":"Y","COMMENTS":"North of the East Park Canoe House just off the trail."},"geometry":{"x":-8370464.3851999994,"y":4865108.3919999972}},{"attributes":{"OBJECTID":13,"AMENITY_NAME":"St Josephs Boathouse Launch (South)","PARENT_NAME":"East Fairmount Park","ALIAS":"Kelly Dr Pier;Public Dock South of Gillin Boathouse","RAMP":"N","DOCK":"Y","PARKING":"Y","COMMENTS":"Publicly accessible boat launch"},"geometry":{"x":-8370781.9417000003,"y":4864781.5204000026}},{"attributes":{"OBJECTID":14,"AMENITY_NAME":"MLK Dr Launch (Black Rd)","PARENT_NAME":"West Fairmount Park","ALIAS":"Dragon Boat Dock","RAMP":"N","DOCK":"Y","PARKING":"Y","COMMENTS":" "},"geometry":{"x":-8371759.7578999996,"y":4863415.0800999999}},{"attributes":{"OBJECTID":15,"AMENITY_NAME":"Boathouse Row Launch (Crescent)","PARENT_NAME":"East Fairmount Park","ALIAS":"Crescent Boat Club","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369728.0289999992,"y":4861457.0095999986}},{"attributes":{"OBJECTID":16,"AMENITY_NAME":"Boathouse Row Launch (Fairmount Rowing)","PARENT_NAME":"East Fairmount Park","ALIAS":"Fairmount Rowing Association","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369672.8720999993,"y":4861441.1225999966}},{"attributes":{"OBJECTID":17,"AMENITY_NAME":"Boathouse Row Launch (Malta)","PARENT_NAME":"East Fairmount Park","ALIAS":"Malta Boat Club","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369872.2799999993,"y":4861475.0659999996}},{"attributes":{"OBJECTID":18,"AMENITY_NAME":"Boathouse Row Launch (Penn Athletic)","PARENT_NAME":"East Fairmount Park","ALIAS":"Penn Athletic Club Rowing Association","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369968.1480999999,"y":4861492.5639000013}},{"attributes":{"OBJECTID":19,"AMENITY_NAME":"Boathouse Row Launch (Philadelphia Girls)","PARENT_NAME":"East Fairmount Park","ALIAS":"Philadelphia Girls Rowing Club","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8370033.6557,"y":4861510.2424999997}},{"attributes":{"OBJECTID":20,"AMENITY_NAME":"Boathouse Row Launch (Schuylkill Navy)","PARENT_NAME":"East Fairmount Park","ALIAS":"Schuylkill Navy Headquarters","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369713.4559000004,"y":4861454.4535000026}},{"attributes":{"OBJECTID":21,"AMENITY_NAME":"Boathouse Row Launch (Undine)","PARENT_NAME":"East Fairmount Park","ALIAS":"Undine Barge Club","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369997.8881000001,"y":4861499.1841999963}},{"attributes":{"OBJECTID":22,"AMENITY_NAME":"Boathouse Row Launch (University Barge)","PARENT_NAME":"East Fairmount Park","ALIAS":"University Barge Club","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369826.8969999999,"y":4861473.5305999964}},{"attributes":{"OBJECTID":23,"AMENITY_NAME":"Boathouse Row Launch (Vesper)","PARENT_NAME":"East Fairmount Park","ALIAS":"Vesper Boat Club","RAMP":"Y","DOCK":"Y","PARKING":"N","COMMENTS":"Private"},"geometry":{"x":-8369893.6985999998,"y":4861483.1491999999}},{"attributes":{"OBJECTID":24,"AMENITY_NAME":"East Park Canoe House Ramp","PARENT_NAME":"East Fairmount Park","ALIAS":" ","RAMP":"Y","DOCK":"N","PARKING":"Y","COMMENTS":"Ramp Location, dock/pier is locate to the north of here"},"geometry":{"x":-8370598.6613999996,"y":4864957.9558999985}}]
+}
