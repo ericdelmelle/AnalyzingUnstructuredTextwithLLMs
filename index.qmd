@@ -62,7 +62,7 @@ ul ul {
 -   10-12: room G.1.56
 -   13-15: room i.1.03
 
-![](imgs/program.png){fig-align="center"}
+![](imgs/program_updated.png){fig-align="center"}
 
 
 
@@ -250,7 +250,7 @@ print(titles)
 
 - **Definition:** Semi-structured data is a type of data that does not reside in a traditional relational database but still has some structure, such as metadata or tags.
 - **Examples:** JSON, XML, HTML, emails, and web-scraped data.
-- **Example of Unstructured Text Before Processing:**
+
 ```text
 Review ID: 12345
 User: Alex B.
@@ -268,12 +268,9 @@ Review: "Service was slow and the pastries were stale. Won't visit again."
 
 ### [**Data Cleaning Techniques**]{style="color: red;"}
 
-- **Column Standardization:**
   - Standardizing column names and ensuring consistent naming conventions.
-- **Handling Missing Data:**
   - Filling missing values or removing incomplete records.
-
-#### **Example of Cleaning Google Reviews Data:**
+  - **Example of Cleaning Google Reviews Data:**
 ```python
 import pandas as pd
 
@@ -284,10 +281,8 @@ reviews = [
     {"review_id": 12347, "user": "John D.", "review": "Amazing espresso!"}
 ]
 
-# Convert to DataFrame
 df = pd.DataFrame(reviews)
 
-# Handle missing data
 df['review'].fillna("No review provided", inplace=True)
 print(df)
 ```
@@ -301,6 +296,9 @@ print(df)
 
 - **Natural Language Processing** (NLP) enables machines to understand, interpret, and generate text-based data in meaningful ways.
 
+------------------------------------------------------------------------
+
+## [8]{.circle} [**Text Mining Fundamentals**]{style="color: red;"}
 
 ### Techniques
 
@@ -330,7 +328,7 @@ print(filtered_tokens)
 ### [**Visualizing Text Data**]{style="color: red;"}
 
 - **Word Clouds:** Graphical representations of frequent words.
-- **Frequency Distributions:** Analyzing the most commonly used words in a dataset.
+- **Frequency Distributions:** Analyzing most common words in a dataset.
 
 #### **Example: Generating a Word Cloud**
 ```python
@@ -428,48 +426,46 @@ print(result)
 ------------------------------------------------------------------------
 
 
+## [10]{.circle} [**Hands-on: Sentiment Analysis of 311 Requests**]{style="color: red;"}
+
+-   We will analyze resident complains about infrastructure, also known as <span style="color: brown;">**311-calls**</span> <span style="color: blue;">*API_textAnalytics_Census.ipynb*</span> 
+
+-   data extraction (through API calls)
+-   calculate word frequencies
+-   sentiment analysis, including emotions
 
 
-## Hands-on: Sentiment Analysis of 311 Requests
+------------------------------------------------------------------------
+
+
+## [11]{.circle} [**Park emotions**]{style="color: red;"}
+
+-   Emotional Landscapes: Mapping Urban Park Sentiments Using Natural Language Processing
+-   [Link to presentation](https://ericdelmelle.github.io/emotionalLandscape/)
 
 
 
+------------------------------------------------------------------------
 
-### Visualizing Emotional Data
+## [**Wrap up**]{style="color: teal;"}
 
-- Spatial visualization techniques
+-   API, webscraping
+-   Place-based API (Google Reviews, Four square, etc...)
+-   Text analytics, emotions, visualization
+-   Actionable insights
+-   Policy and management implications
 
-### Content Analysis of Emotional Themes
+------------------------------------------------------------------------
 
-- Frequent words
-- Thematic analysis
-
-## Conclusion & Practical Implications
-
-### Summary of Key Learnings
-
-### Implications for Urban Planning
-
-- Actionable insights
-- Policy and management implications
-
-### Real-world Applications
-
-- Public health and urban planning
-
-### Limitations and Ethical Considerations
+## [**Limitations and Ethical Considerations**]{style="color: teal;"}
 
 - Data privacy concerns
 - Biases in data
+- Representativeness?
 
-### Future Research Directions
+------------------------------------------------------------------------
 
-- Advancing NLP applications
-- Geospatial analysis enhancements
+## [**Last slide**]{style="color: teal;"}
 
-### Q&A
-
-- Interactive session
-- Final thoughts and discussion
-
+- Final thoughts, questions?
 

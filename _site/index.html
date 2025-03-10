@@ -445,7 +445,7 @@ ul ul {
 <li>13-15: room i.1.03</li>
 </ul>
 
-<img data-src="imgs/program.png" class="r-stretch quarto-figure-center"></section>
+<img data-src="imgs/program_updated.png" class="r-stretch quarto-figure-center"></section>
 <section id="rapid-intro" class="slide level2">
 <h2><span class="circle">1</span> <span style="color: red;"><strong>Rapid intro</strong></span></h2>
 <ul>
@@ -612,7 +612,6 @@ ul ul {
 <ul>
 <li><strong>Definition:</strong> Semi-structured data is a type of data that does not reside in a traditional relational database but still has some structure, such as metadata or tags.</li>
 <li><strong>Examples:</strong> JSON, XML, HTML, emails, and web-scraped data.</li>
-<li><strong>Example of Unstructured Text Before Processing:</strong></li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a>Review ID: 12345</span>
 <span id="cb6-2"><a href="#cb6-2"></a>User: Alex B.</span>
@@ -631,16 +630,10 @@ ul ul {
 
 <h3 id="data-cleaning-techniques"><span style="color: red;"><strong>Data Cleaning Techniques</strong></span></h3>
 <ul>
-<li><strong>Column Standardization:</strong>
-<ul>
 <li>Standardizing column names and ensuring consistent naming conventions.</li>
-</ul></li>
-<li><strong>Handling Missing Data:</strong>
-<ul>
 <li>Filling missing values or removing incomplete records.</li>
-</ul></li>
+<li><strong>Example of Cleaning Google Reviews Data:</strong></li>
 </ul>
-<h4 id="example-of-cleaning-google-reviews-data"><strong>Example of Cleaning Google Reviews Data:</strong></h4>
 <div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-2"><a href="#cb7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co"># Sample unstructured data</span></span>
@@ -650,12 +643,10 @@ ul ul {
 <span id="cb7-7"><a href="#cb7-7"></a>    {<span class="st">"review_id"</span>: <span class="dv">12347</span>, <span class="st">"user"</span>: <span class="st">"John D."</span>, <span class="st">"review"</span>: <span class="st">"Amazing espresso!"</span>}</span>
 <span id="cb7-8"><a href="#cb7-8"></a>]</span>
 <span id="cb7-9"><a href="#cb7-9"></a></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co"># Convert to DataFrame</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a>df <span class="op">=</span> pd.DataFrame(reviews)</span>
-<span id="cb7-12"><a href="#cb7-12"></a></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co"># Handle missing data</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a>df[<span class="st">'review'</span>].fillna(<span class="st">"No review provided"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-10"><a href="#cb7-10"></a>df <span class="op">=</span> pd.DataFrame(reviews)</span>
+<span id="cb7-11"><a href="#cb7-11"></a></span>
+<span id="cb7-12"><a href="#cb7-12"></a>df[<span class="st">'review'</span>].fillna(<span class="st">"No review provided"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="text-mining-fundamentals" class="slide level2">
 <h2><span class="circle">8</span> <span style="color: red;"><strong>Text Mining Fundamentals</strong></span></h2>
@@ -664,6 +655,9 @@ ul ul {
 <li><p><strong>Applications:</strong> Sentiment analysis, topic modeling, named entity recognition.</p></li>
 <li><p><strong>Natural Language Processing</strong> (NLP) enables machines to understand, interpret, and generate text-based data in meaningful ways.</p></li>
 </ul>
+</section>
+<section id="text-mining-fundamentals-1" class="slide level2">
+<h2><span class="circle">8</span> <span style="color: red;"><strong>Text Mining Fundamentals</strong></span></h2>
 <h3 id="techniques">Techniques</h3>
 <ul>
 <li><strong>Tokenization:</strong> Splitting text into words or phrases.</li>
@@ -692,7 +686,7 @@ ul ul {
 <h3 id="visualizing-text-data"><span style="color: red;"><strong>Visualizing Text Data</strong></span></h3>
 <ul>
 <li><strong>Word Clouds:</strong> Graphical representations of frequent words.</li>
-<li><strong>Frequency Distributions:</strong> Analyzing the most commonly used words in a dataset.</li>
+<li><strong>Frequency Distributions:</strong> Analyzing most common words in a dataset.</li>
 </ul>
 <h4 id="example-generating-a-word-cloud"><strong>Example: Generating a Word Cloud</strong></h4>
 <div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
@@ -791,43 +785,43 @@ ul ul {
 </ul>
 </section>
 <section id="hands-on-sentiment-analysis-of-311-requests" class="slide level2">
-<h2>Hands-on: Sentiment Analysis of 311 Requests</h2>
-<h3 id="visualizing-emotional-data">Visualizing Emotional Data</h3>
+<h2><span class="circle">10</span> <span style="color: red;"><strong>Hands-on: Sentiment Analysis of 311 Requests</strong></span></h2>
 <ul>
-<li>Spatial visualization techniques</li>
-</ul>
-<h3 id="content-analysis-of-emotional-themes">Content Analysis of Emotional Themes</h3>
-<ul>
-<li>Frequent words</li>
-<li>Thematic analysis</li>
+<li><p>We will analyze resident complains about infrastructure, also known as <span style="color: brown;"><strong>311-calls</strong></span> <span style="color: blue;"><em>API_textAnalytics_Census.ipynb</em></span></p></li>
+<li><p>data extraction (through API calls)</p></li>
+<li><p>calculate word frequencies</p></li>
+<li><p>sentiment analysis, including emotions</p></li>
 </ul>
 </section>
-<section id="conclusion-practical-implications" class="slide level2">
-<h2>Conclusion &amp; Practical Implications</h2>
-<h3 id="summary-of-key-learnings">Summary of Key Learnings</h3>
-<h3 id="implications-for-urban-planning">Implications for Urban Planning</h3>
+<section id="park-emotions" class="slide level2">
+<h2><span class="circle">11</span> <span style="color: red;"><strong>Park emotions</strong></span></h2>
 <ul>
+<li>Emotional Landscapes: Mapping Urban Park Sentiments Using Natural Language Processing</li>
+<li><a href="https://ericdelmelle.github.io/emotionalLandscape/">Link to presentation</a></li>
+</ul>
+</section>
+<section id="wrap-up" class="slide level2">
+<h2><span style="color: teal;"><strong>Wrap up</strong></span></h2>
+<ul>
+<li>API, webscraping</li>
+<li>Place-based API (Google Reviews, Four square, etc…)</li>
+<li>Text analytics, emotions, visualization</li>
 <li>Actionable insights</li>
 <li>Policy and management implications</li>
 </ul>
-<h3 id="real-world-applications">Real-world Applications</h3>
-<ul>
-<li>Public health and urban planning</li>
-</ul>
-<h3 id="limitations-and-ethical-considerations">Limitations and Ethical Considerations</h3>
+</section>
+<section id="limitations-and-ethical-considerations" class="slide level2">
+<h2><span style="color: teal;"><strong>Limitations and Ethical Considerations</strong></span></h2>
 <ul>
 <li>Data privacy concerns</li>
 <li>Biases in data</li>
+<li>Representativeness?</li>
 </ul>
-<h3 id="future-research-directions">Future Research Directions</h3>
+</section>
+<section id="last-slide" class="slide level2">
+<h2><span style="color: teal;"><strong>Last slide</strong></span></h2>
 <ul>
-<li>Advancing NLP applications</li>
-<li>Geospatial analysis enhancements</li>
-</ul>
-<h3 id="qa">Q&amp;A</h3>
-<ul>
-<li>Interactive session</li>
-<li>Final thoughts and discussion</li>
+<li>Final thoughts, questions?</li>
 </ul>
 
 <div class="footer footer-default">
